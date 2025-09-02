@@ -1,0 +1,7 @@
+<div class="toast toast-right toast-top mt-[32px]">
+    @for (toast of toasts(); track $index) {
+    <div class="alert shadow-lg transition duration-300 animate-fade-in" [class]="getClass(toast.type)">
+        <span>{{ toast.message }}</span>
+    </div>
+    }
+</div>

@@ -1,0 +1,54 @@
+<div class="flex justify-end mb-4">
+    <button class="btn btn-xs btn-success rounded-sm" (click)="openModalNewLicenseTemplate()">{{ 'common.button_new' | changeLanguage }}</button>
+</div>
+
+<div class="overflow-x-auto">
+    <table class="table table-xs table-pin-rows table-pin-cols">
+        <thead>
+            <tr>
+                <th>{{ 'license_template.table.type' | changeLanguage }}</th>
+                <th>{{ 'license_template.table.title' | changeLanguage }}</th>
+                <th>{{ 'license_template.table.content' | changeLanguage }}</th>
+                <th class="text-center">{{ 'license_template.table.active' | changeLanguage }}</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (template of licenseTemplates(); let i = $index; track i) {
+            <tr>
+                <td>{{ template.type.description }}</td>
+                <td>{{ template.title }}</td>
+                <td [innerHTML]="sanitizedHtml(template.content)"></td>
+                <td class="text-center">
+                    <div class="badge badge-outline badge-primary">
+                        {{ getActive(template.active) | changeLanguage }}
+                    </div>
+                </td>
+                <td class="text-right">
+                    <div class="tooltip tooltip-left" [attr.data-tip]="'common.label_actions' | changeLanguage">
+                        <button class="btn btn-xs btn-ghost btn-square " (click)="selectTemplate(template)">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                                <g fill="none">
+                                    <path fill="currentColor"
+                                        d="M9 12a1 1 0 1 1-2 0a1 1 0 0 1 2 0m4 0a1 1 0 1 1-2 0a1 1 0 0 1 2 0m4 0a1 1 0 1 1-2 0a1 1 0 0 1 2 0" />
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-width="1.5"
+                                        d="M22 12c0 4.714 0 7.071-1.465 8.535C19.072 22 16.714 22 12 22s-7.071 0-8.536-1.465C2 19.072 2 16.714 2 12s0-7.071 1.464-8.536C4.93 2 7.286 2 12 2s7.071 0 8.535 1.464c.974.974 1.3 2.343 1.41 4.536" />
+                                </g>
+                            </svg>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            }
+            <!--  -->
+            @empty {
+            <tr class="text-center">
+                <td class="py-5" colspan="6">{{ 'license_template.table.no_templates' | changeLanguage}}</td>
+            </tr>
+            }
+        </tbody>
+    </table>
+</div>
+@if(selectedTemplate()){
+<app-license-template-modal [templateData]="selectedTemplate()" (closed)="clearSelectedTemplate($event)" />
+}

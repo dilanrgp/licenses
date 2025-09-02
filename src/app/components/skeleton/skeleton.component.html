@@ -1,0 +1,17 @@
+@if(pageName() == 'table'){
+<div class="skeleton h-5 w-full mb-2"></div>
+<div class="skeleton h-90 w-full mb-5"></div>
+}
+<!--  -->
+@else {
+<div class="skeleton h-10 w-80 mb-2 rounded-lg"></div>
+<div class="overflow-y-auto p-2 pr-4 scrollbar-thin scrollbar-thumb-[#32244a] scrollbar-track-transparent h-[50vh]">
+    <div class="tabs tabs-lift w-20">
+        <!-- Skeleton para los tabs -->
+        <div class="tab skeleton h-10 w-20 rounded-lg"></div>
+        
+    </div>
+    
+    <div class="skeleton h-90 w-full mb-5 rounded-tl-xs"></div>
+</div>
+}

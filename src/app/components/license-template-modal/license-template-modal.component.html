@@ -1,0 +1,70 @@
+<dialog id="modal-license-template" class="modal">
+    @if(loading()){
+    <div class="overlay">
+        <span class="loading loading-spinner text-secondary"></span>
+    </div>
+    }
+    <div class="modal-box max-w-7xl ">
+        <form method="dialog">
+            <button type="button" class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
+                (click)="onClose()">✕</button>
+        </form>
+
+        <form [formGroup]="templateForm" (ngSubmit)="onSubmit()">
+            <div class="flex justify-between items-center mb-4 mt-5">
+                <div>
+                    <h3 class="text-xl font-bold">{{ 'license_template.modal.title' | changeLanguage}} </h3>
+                </div>
+                <button class="btn btn-xs btn-secondary rounded-sm">{{ 'common.button_save' | changeLanguage}}</button>
+            </div>
+
+            <div class="flex gap-4">
+                <fieldset class="fieldset flex-1 gap-0 py-0">
+                    <legend class="fieldset-legend" [class.input-error]="isInvalid('title')">
+                        {{ 'license_template.table.title' | changeLanguage }}
+                    </legend>
+                    <input type="text" class="input grow w-full"
+                        [placeholder]="'license_template.table.title' | changeLanguage" formControlName="title"
+                        [class.input-error]="isInvalid('title')" />
+                    <form-error-label [control]="templateForm.get('title')!" />
+                </fieldset>
+
+                <fieldset class="fieldset flex-1 gap-0 py-0">
+                    <legend class="fieldset-legend" [class.input-error]="isInvalid('type_id')">
+                        {{ 'license_template.table.type' | changeLanguage }}
+                    </legend>
+                    <select class="select w-full" formControlName="type_id">
+                        <option disabled selected>{{ 'license_template.table.type' | changeLanguage }}</option>
+                        @for (type of types(); track type.id) {
+                        <option [value]="type.id">{{ type.description }}</option>
+                        }
+                    </select>
+                    <form-error-label [control]="templateForm.get('type_id')!" />
+                </fieldset>
+
+                <fieldset class="fieldset flex-1 gap-0 py-0">
+                    <legend class="fieldset-legend" [class.input-error]="isInvalid('logo')">
+                        {{ 'license_template.table.logo' | changeLanguage }}
+                    </legend>
+                    <input type="file" class="file-input grow w-full"
+                        [placeholder]="'license_template.table.logo' | changeLanguage"
+                        [class.input-error]="isInvalid('logo')" />
+                    <form-error-label [control]="templateForm.get('logo')!" />
+                </fieldset>
+            </div>
+
+            <div class="flex-1 flex flex-col">
+                <fieldset class="fieldset gap-0 py-0">
+                    <legend class="fieldset-legend" [class.input-error]="isInvalid('content')">
+                        {{ 'license_template.table.content' | changeLanguage }}
+                    </legend>
+                    <app-ckeditor />
+                    <form-error-label [control]="templateForm.get('content')!" />
+                </fieldset>
+
+            </div>
+        </form>
+    </div>
+</dialog>
+
+

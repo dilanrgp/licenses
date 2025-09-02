@@ -1,0 +1,38 @@
+<div class="bg-white p-6 lg:p-8 max-w-7xl mx-auto space-y-6 animate-fade-up mt-10 rounded-field">
+
+    @if (loading()) {
+    <app-skeleton [pageName]="'settings'" />
+    } @else {
+    <h1 class="text-3xl font-bold text-[#32244a]">{{ pageTitle() }}</h1>
+    
+    <div class="tabs tabs-lift">
+        <!-- GENERAL -->
+        <input type="radio" name="my_tabs_3" class="tab" [attr.aria-label]="'general_settings.tabs.general' | changeLanguage" checked="checked" />
+        <div class="tab-content bg-base-100 border-base-300 p-6">
+            <div class="overflow-y-auto p-2 pr-4 scrollbar-thin scrollbar-thumb-[#32244a] scrollbar-track-transparent h-[50vh]">
+            </div>
+        </div>
+
+
+        <!-- TEMPLATES -->
+        <input type="radio" name="my_tabs_3" class="tab" [attr.aria-label]="'general_settings.tabs.templates' | changeLanguage"  />
+        <div class="tab-content bg-base-100 border-base-300 p-6">
+            <div class="overflow-y-auto p-2 pr-4 scrollbar-thin scrollbar-thumb-[#32244a] scrollbar-track-transparent h-[50vh]">
+                @if( licensesTemplateResource.isLoading() ) {
+                    <div class="flex justify-center items-center h-full">
+                        <span class="loading loading-spinner loading-lg"></span>
+                    </div>
+                }
+                @if (licensesTemplateResource.hasValue()){
+                    <app-license-template-table [licenseTemplateData]="licensesTemplateResource.value()" />
+                }
+            </div>
+            @if (licensesTemplateResource.hasValue()) {
+                <app-pagination [paginationData]="licensesTemplateResource.value()" />
+            }
+        </div>
+
+    </div>
+    }
+
+</div>

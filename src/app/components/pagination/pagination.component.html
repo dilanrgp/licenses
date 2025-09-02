@@ -1,0 +1,51 @@
+<div class="join flex justify-center items-center">
+    <!-- First Page Button -->
+    @if(showExtraButtons()){
+    <button class="join-item btn btn-xs flex items-center justify-center" [class.btn-disabled]="isFirstPage()"
+        [routerLink]="isFirstPage() ? null : []" [queryParams]="{ page: 1 }" (click)="goToFirst()">
+        <span class="flex items-center justify-center w-full">{{ 'pagination.first' | changeLanguage }}</span>
+    </button>
+    }
+
+    <!-- Previous Button -->
+    <div class="tooltip tooltip-secondary flex items-center" [attr.data-tip]="'pagination.previus' | changeLanguage">
+        <button class="join-item btn btn-xs flex items-center justify-center" [class.btn-disabled]="isFirstPage()"
+            [routerLink]="isFirstPage() ? null : []" [queryParams]="{ page: activePage() - 1 }"
+            (click)="goToPrevious()">
+            <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" class="mx-auto">
+                <path fill="currentColor" fill-rule="evenodd"
+                    d="M15.488 4.43a.75.75 0 0 1 .081 1.058L9.988 12l5.581 6.512a.75.75 0 1 1-1.138.976l-6-7a.75.75 0 0 1 0-.976l6-7a.75.75 0 0 1 1.057-.081"
+                    clip-rule="evenodd" />
+            </svg>
+        </button>
+    </div>
+
+    <!-- Page Numbers -->
+    @for (page of getPagesList(); track page) {
+    <button class="join-item btn btn-xs flex items-center justify-center" [class.btn-secondary]="page === activePage()"
+        [routerLink]="[]" [queryParams]="{ page: page }" (click)="activePage.set(page)">
+        <span class="flex items-center justify-center w-full">{{ page }}</span>
+    </button>
+    }
+
+    <!-- Next Button -->
+    <div class="tooltip tooltip-secondary flex items-center" [attr.data-tip]="'pagination.next' | changeLanguage">
+        <button class="join-item btn btn-xs flex items-center justify-center" [class.btn-disabled]="isLastPage()"
+            [routerLink]="isLastPage() ? null : []" [queryParams]="{ page: activePage() + 1 }" (click)="goToNext()">
+            <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" class="mx-auto">
+                <path fill="currentColor" fill-rule="evenodd"
+                    d="M8.512 4.43a.75.75 0 0 1 1.057.082l6 7a.75.75 0 0 1 0 .976l-6 7a.75.75 0 0 1-1.138-.976L14.012 12L8.431 5.488a.75.75 0 0 1 .08-1.057"
+                    clip-rule="evenodd" />
+            </svg>
+        </button>
+    </div>
+
+    <!-- Last Page Button -->
+    @if(showExtraButtons()){
+    <button class="join-item btn btn-xs flex items-center justify-center" [class.btn-disabled]="isLastPage()"
+        [routerLink]="isLastPage() ? null : []" [queryParams]="{ page: paginationData().last_page }"
+        (click)="goToLast()">
+        <span class="flex items-center justify-center w-full">{{ 'pagination.last' | changeLanguage }}</span>
+    </button>
+    }
+</div>

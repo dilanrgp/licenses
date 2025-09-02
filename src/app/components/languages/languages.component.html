@@ -1,0 +1,4 @@
+<section class="header-lang bg-base-100 flex justify-end p-2">
+		<button class="btn btn-xs btn-ghost" [class.btn-active]="applicationLanguage() != 'es'" (click)="changeLocale('en')">en-EN</button>
+		<button class="btn btn-xs btn-ghost" [class.btn-active]="applicationLanguage() === 'es'" (click)="changeLocale('es')">es-ES</button>
+	</section>

@@ -1,0 +1,36 @@
+<div class="bg-white p-6 lg:p-8 max-w-7xl mx-auto space-y-6 animate-fade-up mt-10 rounded-field">
+
+    @if( loading() ) {
+    <app-skeleton />
+    }
+    <!--  -->
+    @else {
+
+    <div class="flex justify-between items-start">
+        <div>
+            <h1 class="text-3xl font-bold text-[#32244a]">{{ pageTitle() }}</h1>
+        </div>
+        <div class="flex gap-1">
+            <button class="btn btn-xs btn-success rounded-sm" [disabled]="selectedLicenses().length === 0">{{ 'common.send_license' | changeLanguage }}</button>
+        </div>
+    </div>
+
+    <div class="overflow-y-auto p-2 pr-4 scrollbar-thin scrollbar-thumb-[#32244a] scrollbar-track-transparent h-[50vh]">
+
+        @if( licensesResource.isLoading() ) {
+        <app-skeleton [pageName]="'table'" />
+        }
+
+        @if (licensesResource.hasValue()){
+
+        <app-licenses-table [licenseResponse]="licensesResource.value()" (selectionChanged)="selectedLicenses.set($event)" />
+        }
+
+    </div>
+
+    @if (licensesResource.hasValue()) {
+    <app-pagination [paginationData]="licensesResource.value()" />
+    }
+
+    }
+</div>

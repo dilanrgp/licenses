@@ -1,0 +1,109 @@
+/* You can add global styles to this file, and also import other style files */
+
+@import 'quill/dist/quill.snow.css';
+@import "tailwindcss";
+@plugin 'tailwind-scrollbar';
+@plugin "daisyui" {
+  themes: winter --default;
+}
+
+body {
+  background: url("/assets/images/background_body.webp") no-repeat center;
+  background-size: cover;
+}
+
+.header-lang {
+    color: white;
+    background-position: center bottom 0px;
+    background-image: linear-gradient(90deg, rgba(255, 255, 255, 0.7) 0%, rgba(50, 36, 74, 0.64) 100%), url("/assets/images/header-bar-scaled.jpg");
+}
+
+@layer utilities {
+  .animate-fade-up {
+    animation: fade-up 0.6s ease-out both;
+  }
+
+  @keyframes fade-up {
+    0% {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  .animate-fade-in {
+    animation: fade-in 0.7s ease-in-out forwards;
+  }
+
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.td-overflow {
+    max-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* ESTILOS PARA EL MODAL */
+:where(:root:has(.modal-open, .modal[open], .modal:target, .modal-toggle:checked, .drawer:not(.drawer-open) > .drawer-toggle:checked)) {
+    scrollbar-gutter: auto !important;
+}
+
+.modal {
+  padding: 0px !important;
+}
+
+:where(.modal[open], .modal-open, .modal-toggle:checked + .modal):not(.modal-start, .modal-end) {
+  scrollbar-gutter: auto !important;
+}
+
+/* ESTILOS PARA EL EDITOR WYSWYG */
+.quill-container * {
+  all: revert;
+}
+
+/* ESTILOS PARA EL CKEDITOR */
+.my-ckeditor-wrapper :where(.ck) {
+  all: revert; /* mucho más seguro que initial */
+}
+.ck-editor__editable_inline {
+	min-height: 40vh;
+}
+.ck-content ul {
+  list-style-type: disc;
+  margin-left: 1.5em;
+}
+
+.ck-content ol {
+  list-style-type: decimal;
+  margin-left: 1.5em;
+}
+
+.ck-content li {
+  margin-bottom: 0.5em;
+}
