@@ -11,7 +11,7 @@
       "prefix": "app",
       "architect": {
         "build": {
-          "builder": "@angular/build:application",
+          "builder": "@angular-devkit/build-angular:vite",
           "options": {
             "outputPath": "dist/licensing-portal-front",
             "index": "src/index.html",
@@ -34,7 +34,6 @@
               }
             ],
             "styles": [
-              "node_modules/@ckeditor/ckeditor5-theme-lark/theme/theme.css",
               "node_modules/quill/dist/quill.snow.css",
               "src/styles.css"
             ],
@@ -106,7 +105,6 @@
               }
             ],
             "styles": [
-              "node_modules/@ckeditor/ckeditor5-theme-lark/theme/theme.css",
               "node_modules/quill/dist/quill.snow.css",
               "src/styles.css"
             ],

@@ -32,22 +32,7 @@ export default class CustomEditor extends ClassicEditor {}
 ];
 (CustomEditor as any).defaultConfig = {
   toolbar: {
-    items: [
-      'heading',
-      '|',
-      'bold',
-      'italic',
-      '|',
-      'alignment',
-      '|',
-      'outdent',
-      'indent',
-      '|',
-      'insertTable',
-      '|',
-      'undo',
-      'redo',
-    ],
+    items: ['bold','italic','alignment','outdent','indent','undo','redo','|','insertTable'],
   },
   table: {
     contentToolbar: [
