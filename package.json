@@ -33,6 +33,7 @@
     "@tiptap/extension-paragraph": "^3.0.9",
     "@tiptap/extension-text": "^3.0.9",
     "daisyui": "^5.0.46",
+    "jodit-angular": "^1.0.0",
     "ngx-quill": "^28.0.1",
     "postcss": "^8.5.6",
     "quill": "^2.0.3",
