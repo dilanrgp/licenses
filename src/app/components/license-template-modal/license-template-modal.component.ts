@@ -8,11 +8,11 @@ import { LicenseTemplateService } from '@services/license-templates.service';
 import { FormErrorLabelComponent } from '@shared/components/form-error-label/form-error-label.component';
 import { firstValueFrom, of } from 'rxjs';
 import { ToastMessageService } from '@services/toast-message.service';
-import { CkeditorComponent } from '@shared/components/ckeditor/ckeditor.component';
+import { TinyEditorComponent } from '@shared/components/tiny-editor/tiny-editor.component';
 
 @Component({
   selector: 'app-license-template-modal',
-  imports: [ChangeLanguagePipe, FormsModule, ReactiveFormsModule, FormErrorLabelComponent, CkeditorComponent],
+  imports: [ChangeLanguagePipe, FormsModule, ReactiveFormsModule, FormErrorLabelComponent, TinyEditorComponent],
   templateUrl: './license-template-modal.component.html'
 })
 export class LicenseTemplateModalComponent {

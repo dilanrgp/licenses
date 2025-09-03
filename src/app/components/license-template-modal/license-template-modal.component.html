@@ -58,7 +58,7 @@
                     <legend class="fieldset-legend" [class.input-error]="isInvalid('content')">
                         {{ 'license_template.table.content' | changeLanguage }}
                     </legend>
-                    <app-ckeditor />
+                    <app-tiny-editor />
                     <form-error-label [control]="templateForm.get('content')!" />
                 </fieldset>
 

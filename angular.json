@@ -31,13 +31,16 @@
                 "glob": "**/*.svg",
                 "input": "src/app/ckeditor/icons",
                 "output": "/assets/ckeditor-icons/"
-              }
+              },
+              { "glob": "**/*", "input": "node_modules/tinymce", "output": "/tinymce/" }
             ],
             "styles": [
               "node_modules/quill/dist/quill.snow.css",
               "src/styles.css"
             ],
-            "scripts": []
+            "scripts": [
+              "node_modules/tinymce/tinymce.min.js"
+            ]
           },
           "configurations": {
             "production": {
@@ -102,13 +105,16 @@
                 "glob": "**/*.svg",
                 "input": "src/app/ckeditor/icons",
                 "output": "/assets/ckeditor-icons/"
-              }
+              },
+              { "glob": "**/*", "input": "node_modules/tinymce", "output": "/tinymce/" }
             ],
             "styles": [
               "node_modules/quill/dist/quill.snow.css",
               "src/styles.css"
             ],
-            "scripts": []
+            "scripts": [
+              "node_modules/tinymce/tinymce.min.js"
+            ]
           }
         }
       }
