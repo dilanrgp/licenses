@@ -7,10 +7,11 @@ import { LoaderService } from '@services/loader.service';
 import { LicenseService } from '@services/licenses.service';
 import { ToastMessageService } from '@services/toast-message.service';
 import { LocaleService } from '@services/locale.service';
+import { ToastMessageComponent } from '@components/toast-message/toast-message.component';
 
 @Component({
   selector: 'app-license-modal',
-  imports: [ChangeLanguagePipe, OrderPositionPipe, DatePipe, TitleCasePipe],
+  imports: [ChangeLanguagePipe, OrderPositionPipe, DatePipe, TitleCasePipe, ToastMessageComponent],
   templateUrl: './license-modal.component.html',
 })
 export class LicenseModalComponent { 

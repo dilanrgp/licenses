@@ -11,7 +11,7 @@ import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-license-terms-modal',
-  imports: [FormsModule, QuillEditorComponent, ReactiveFormsModule, ChangeLanguagePipe, FormErrorLabelComponent],
+  imports: [FormsModule, QuillEditorComponent, ReactiveFormsModule, ChangeLanguagePipe, FormErrorLabelComponent, ToastMessageComponent],
   templateUrl: './license-terms-modal.component.html',
 })
 export class LicenseTermsModalComponent {
