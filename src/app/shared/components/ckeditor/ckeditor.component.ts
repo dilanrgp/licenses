@@ -1,7 +1,7 @@
 import { Component, input, signal } from '@angular/core';
 
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import CustomEditor from '@shared/editors/ckeditor-custom';
 
 @Component({
   selector: 'app-ckeditor',
@@ -10,22 +10,7 @@ import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
   styleUrls: ['./ckeditor.component.css'],
 })
 export class CkeditorComponent {
+  //   // Editor: any = ClassicEditor;
+  Editor: any = CustomEditor;
 
-  Editor: any = ClassicEditor;
-
-  config = {
-    placeholder: 'Escribe aquí tu contenido...',
-    toolbar: {
-      items: [
-          'undo', 'redo',
-          '|', 'bold', 'italic', 'alignment',
-          '|', 'insertTable'
-      ]
-    },
-    language: 'es',
-    licenseKey: 'GLP'
-  };
-
-
-
- }
+}

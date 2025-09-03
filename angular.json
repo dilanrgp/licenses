@@ -26,9 +26,16 @@
               {
                 "glob": "**/*",
                 "input": "public"
+              },
+              {
+                "glob": "**/*.svg",
+                "input": "src/app/ckeditor/icons",
+                "output": "/assets/ckeditor-icons/"
               }
             ],
             "styles": [
+              "node_modules/@ckeditor/ckeditor5-theme-lark/theme/theme.css",
+              "node_modules/quill/dist/quill.snow.css",
               "src/styles.css"
             ],
             "scripts": []
@@ -91,9 +98,15 @@
               {
                 "glob": "**/*",
                 "input": "public"
+              },
+              {
+                "glob": "**/*.svg",
+                "input": "src/app/ckeditor/icons",
+                "output": "/assets/ckeditor-icons/"
               }
             ],
             "styles": [
+              "node_modules/@ckeditor/ckeditor5-theme-lark/theme/theme.css",
               "node_modules/quill/dist/quill.snow.css",
               "src/styles.css"
             ],
