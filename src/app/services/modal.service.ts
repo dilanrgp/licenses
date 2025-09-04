@@ -11,7 +11,7 @@ export class ModalService {
 
     if (modal) {
       modal.classList.add('modal-open');
-      overlay.classList.remove('overlay-hidden');
+      overlay.classList.remove('overlay-modal-hidden');
     }
   }
 
@@ -20,7 +20,7 @@ export class ModalService {
     const overlay = document.getElementById('modal-overlay') as HTMLDivElement;
 
     modal?.classList.remove('modal-open');
-    overlay.classList.add('overlay-hidden');
+    overlay.classList.add('overlay-modal-hidden');
   }
 
 }

@@ -58,6 +58,7 @@ export class LicenseTermsModalComponent {
   };
 
   termsEffect = effect(() => {
+    
     const term = this.termData();
     if (term) {
       this.termsForm.patchValue({

@@ -59,11 +59,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 0;
-}
-
-.overlay-hidden {
-  display: none;
+  z-index: 9999;
 }
 
 .td-overflow {
@@ -84,6 +80,23 @@ body {
 
 :where(.modal[open], .modal-open, .modal-toggle:checked + .modal):not(.modal-start, .modal-end) {
   scrollbar-gutter: auto !important;
+}
+
+.overlay-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 0;
+}
+
+.overlay-modal-hidden {
+  display: none;
 }
 
 /* ESTILOS PARA EL EDITOR WYSWYG */
