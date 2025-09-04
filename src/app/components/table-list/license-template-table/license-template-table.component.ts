@@ -36,8 +36,7 @@ export class LicenseTemplateTableComponent {
   });
 
   selectTemplate(template: LicenseTemplate) {
-    this.selectedTemplate.set(structuredClone(template));
-    // this.selectedTemplate.set(template);
+    this.selectedTemplate.set(template);
   }
 
   getActive(active: number) {
