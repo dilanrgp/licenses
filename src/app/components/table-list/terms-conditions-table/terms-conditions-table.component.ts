@@ -13,6 +13,7 @@ import { LicenseTermsModalComponent } from '@components/license-terms-modal/lice
 
 import { ApiTermsResponse, TermsAndConditions } from '@interfaces/terms-conditions.interface';
 import { ChangeLanguagePipe } from '@pipes/change-language.pipe';
+import { ModalService } from '@services/modal.service';
 
 @Component({
   selector: 'app-terms-conditions-table',
@@ -20,6 +21,8 @@ import { ChangeLanguagePipe } from '@pipes/change-language.pipe';
   templateUrl: './terms-conditions-table.component.html',
 })
 export class TermsConditionsTableComponent {
+
+  modalService = inject(ModalService);
   termResponse = input.required<ApiTermsResponse>();
   openModal = input<boolean>();
   closedModal = output<boolean>();
@@ -42,11 +45,8 @@ export class TermsConditionsTableComponent {
 
     if (term || this.openModal()) {
       setTimeout(() => {
-        const modal = document.getElementById(
-          'modal-license-terms'
-        ) as HTMLDialogElement;
-        modal?.showModal();
-      }, 2);
+        this.modalService.open('modal-license-terms');
+      }, 500);
     }
   });
   

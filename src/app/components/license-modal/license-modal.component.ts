@@ -8,6 +8,7 @@ import { LicenseService } from '@services/licenses.service';
 import { ToastMessageService } from '@services/toast-message.service';
 import { LocaleService } from '@services/locale.service';
 import { ToastMessageComponent } from '@components/toast-message/toast-message.component';
+import { ModalService } from '@services/modal.service';
 
 @Component({
   selector: 'app-license-modal',
@@ -17,6 +18,7 @@ import { ToastMessageComponent } from '@components/toast-message/toast-message.c
 export class LicenseModalComponent { 
 
   localeService = inject(LocaleService);
+  modalService = inject(ModalService);
   licenseService = inject(LicenseService);
   messageService = inject(ToastMessageService);
   loaderService = inject(LoaderService);
@@ -35,8 +37,7 @@ export class LicenseModalComponent {
   
   // Public methods
    onClose() {
-    const modal = document.getElementById('modal-license') as HTMLDialogElement;
-    modal.close();
+    this.modalService.close('modal-license');
     this.closed.emit(this.licenseData()!);
   }
 

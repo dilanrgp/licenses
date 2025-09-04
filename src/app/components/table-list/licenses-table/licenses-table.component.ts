@@ -1,10 +1,11 @@
-import { Component,computed,effect,input,linkedSignal,output,signal } from '@angular/core';
+import { Component,computed,effect,inject,input,linkedSignal,output,signal } from '@angular/core';
 
 import { ChangeLanguagePipe } from '@pipes/change-language.pipe';
 import { ApiLicenseResponse, License } from '@interfaces/license.interface';
 import { OrderPositionPipe } from '@pipes/order-position.pipe';
 import { LicenseModalComponent } from '@components/license-modal/license-modal.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { ModalService } from '@services/modal.service';
 
 @Component({
   selector: 'app-licenses-table',
@@ -12,6 +13,8 @@ import { ReactiveFormsModule } from '@angular/forms';
   templateUrl: './licenses-table.component.html',
 })
 export class LicensesTableComponent {
+
+  modalService = inject(ModalService);
 
   selectionChanged = output<License[]>();
   licenseResponse = input.required<ApiLicenseResponse>();
@@ -28,11 +31,8 @@ export class LicensesTableComponent {
     const license = this.selectedLicense();
     if (license) {
       setTimeout(() => {
-        const modal = document.getElementById(
-          'modal-license'
-        ) as HTMLDialogElement;
-        modal?.showModal();
-      }, 2);
+        this.modalService.open('modal-license');
+      }, 500);
     }
   });
 

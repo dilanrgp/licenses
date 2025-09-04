@@ -3,6 +3,7 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { LicenseTemplateModalComponent } from '@components/license-template-modal/license-template-modal.component';
 import { ApiLicenseTemplateResponse, LicenseTemplate } from '@interfaces/license-template.interface';
 import { ChangeLanguagePipe } from '@pipes/change-language.pipe';
+import { ModalService } from '@services/modal.service';
 
 @Component({
   selector: 'app-license-template-table',
@@ -12,6 +13,7 @@ import { ChangeLanguagePipe } from '@pipes/change-language.pipe';
 export class LicenseTemplateTableComponent {
   
   sanitizer = inject(DomSanitizer);
+  modalService = inject(ModalService);
 
   licenseTemplateData = input.required<ApiLicenseTemplateResponse>();
   licenseTemplates = linkedSignal(() => this.licenseTemplateData().data as LicenseTemplate[]);
@@ -28,15 +30,8 @@ export class LicenseTemplateTableComponent {
     
     if (licenseTemplate || this.openModal()) {
       setTimeout(() => {
-        const modal = document.getElementById(
-          'modal-license-template'
-        ) as HTMLDialogElement;
-        modal?.show();
-        if (modal) {
-          let overlay = document.getElementById('modal-overlay') as HTMLDivElement;
-          overlay.classList.remove('overlay-hidden');
-        }
-      }, 2);
+        this.modalService.open('modal-license-template');
+      }, 500);
     }
   });
 

@@ -9,6 +9,7 @@ import { FormErrorLabelComponent } from '@shared/components/form-error-label/for
 import { firstValueFrom, of } from 'rxjs';
 import { ToastMessageService } from '@services/toast-message.service';
 import { TinyEditorComponent } from '@shared/components/tiny-editor/tiny-editor.component';
+import { ModalService } from '@services/modal.service';
 
 @Component({
   selector: 'app-license-template-modal',
@@ -18,6 +19,7 @@ import { TinyEditorComponent } from '@shared/components/tiny-editor/tiny-editor.
 export class LicenseTemplateModalComponent {
 
   licenseTemplateService = inject(LicenseTemplateService);
+  modalService = inject(ModalService);
   fb = inject(FormBuilder);
   messageService = inject(ToastMessageService);
   
@@ -143,12 +145,7 @@ export class LicenseTemplateModalComponent {
 
   
   onClose() {
-    const modal = document.getElementById(
-      'modal-license-template'
-    ) as HTMLDialogElement;
-    modal.close();
-    let overlay = document.getElementById('modal-overlay') as HTMLDivElement;
-    overlay.classList.add('overlay-hidden');
+    this.modalService.close('modal-license-template');
     this.closed.emit(this.templateData()!);
     this.templateForm.reset();
   }

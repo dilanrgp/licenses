@@ -3,6 +3,7 @@ import { FormBuilder, FormsModule, ReactiveFormsModule, Validators } from '@angu
 import { ToastMessageComponent } from '@components/toast-message/toast-message.component';
 import { TermsAndConditions } from '@interfaces/terms-conditions.interface';
 import { ChangeLanguagePipe } from '@pipes/change-language.pipe';
+import { ModalService } from '@services/modal.service';
 import { TermsConditionsService } from '@services/terms-conditions.service';
 import { ToastMessageService } from '@services/toast-message.service';
 import { FormErrorLabelComponent } from '@shared/components/form-error-label/form-error-label.component';
@@ -15,7 +16,10 @@ import { firstValueFrom } from 'rxjs';
   templateUrl: './license-terms-modal.component.html',
 })
 export class LicenseTermsModalComponent {
+
+
   messageService = inject(ToastMessageService);
+  modalService = inject(ModalService);
   termsService = inject(TermsConditionsService);
   fb = inject(FormBuilder);
   termData = model.required<TermsAndConditions | null>();
@@ -67,10 +71,7 @@ export class LicenseTermsModalComponent {
   });
 
   onClose() {
-    const modal = document.getElementById(
-      'modal-license-terms'
-    ) as HTMLDialogElement;
-    modal.close();
+    this.modalService.close('modal-license-terms');
     this.closed.emit(this.termData()!);
     this.termsForm.reset();
   }
