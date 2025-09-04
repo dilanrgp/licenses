@@ -23,7 +23,8 @@
 
         @if (licensesResource.hasValue()){
 
-        <app-licenses-table [licenseResponse]="licensesResource.value()" (selectionChanged)="selectedLicenses.set($event)" />
+        <app-licenses-table [licenseResponse]="licensesResource.value()" [updatedLicense]="updatedLicense()"
+            (selectionChanged)="selectedLicenses.set($event)" (licenseSelected)="selectLicenseFromTable($event)" />
         }
 
     </div>
@@ -34,3 +35,5 @@
 
     }
 </div>
+<app-license-modal [licenseData]="selectedLicense()" (closed)="onModalClosed($event)" />
+

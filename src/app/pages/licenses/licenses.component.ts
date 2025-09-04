@@ -5,16 +5,17 @@ import { ActivatedRoute } from "@angular/router";
 import { License } from "@interfaces/license.interface";
 import { LicenseService } from "@services/licenses.service";
 import { LicensesTableComponent } from "@components/table-list/licenses-table/licenses-table.component";
-import { LoaderComponent } from "@components/loader/loader.component";
 import { LocaleService } from "@services/locale.service";
 import { PaginationComponent } from "@components/pagination/pagination.component";
 import { PaginationService } from "@components/pagination/pagination.service";
 import { SkeletonComponent } from "@components/skeleton/skeleton.component";
 import { ChangeLanguagePipe } from "@pipes/change-language.pipe";
+import { LicenseModalComponent } from "@components/license-modal/license-modal.component";
+import { ModalService } from "@services/modal.service";
 
 @Component({
   selector: 'app-licenses',
-  imports: [SkeletonComponent, PaginationComponent, LicensesTableComponent, ChangeLanguagePipe],
+  imports: [SkeletonComponent, PaginationComponent, LicensesTableComponent, ChangeLanguagePipe, LicenseModalComponent],
   templateUrl: './licenses.component.html',
 })
 export default class LicensesComponent {
@@ -22,12 +23,15 @@ export default class LicensesComponent {
   licenseService = inject(LicenseService);
   routeTitle = inject(ActivatedRoute).snapshot.routeConfig?.path || '';
   paginationService = inject(PaginationService);
+  modalService = inject(ModalService);
+
   selectedLicenses = signal<License[]>([]);
+  selectedLicense = signal<License | null>(null);
+  updatedLicense = signal<License | null>(null);
 
   loading = signal(false);
   licenses = signal<License[]>([]);
-  pageTitle = computed( () => this.localeService.getCurrentTitle(this.routeTitle));
-  
+  pageTitle = computed(() => this.localeService.getCurrentTitle(this.routeTitle));
 
   licensesResource = rxResource({
     params: () => ({ page: this.paginationService.currentPage() }),
@@ -39,19 +43,13 @@ export default class LicensesComponent {
     },
   });
 
-  // showModal(license: License) {
-  //   this.selectedLicense.set(license);
-  //   // Esperar un tick para que el modal se renderice
-  //   setTimeout(() => {
-  //     const modal = document.getElementById(
-  //       'modal-license'
-  //     ) as HTMLDialogElement;
-  //     if (modal) modal.showModal();
-  //   }, 1);
-  // }
+  selectLicenseFromTable(license: License) {
+    this.selectedLicense.set(license);
+    this.modalService.open('modal-license');
+  }
 
-  // onModalClosed() {
-  //   console.log('Hola');
-  //   this.selectedLicense.set(null); // limpiar si necesitas
-  // }
+  onModalClosed(updated: License) {
+    this.updatedLicense.set(null);
+    this.updatedLicense.set(updated);
+  }
 }
