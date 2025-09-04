@@ -1,14 +1,12 @@
-<dialog id="modal-license-template" class="modal">
+<div id="modal-license-template" class="modal">
     @if(loading()){
     <div class="overlay">
         <span class="loading loading-spinner text-secondary"></span>
     </div>
     }
     <div class="modal-box max-w-7xl ">
-        <form method="dialog">
-            <button type="button" class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
+        <button type="button" class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
                 (click)="onClose()">✕</button>
-        </form>
 
         <form [formGroup]="templateForm" (ngSubmit)="onSubmit()">
             <div class="flex justify-between items-center mb-4 mt-5">
@@ -65,6 +63,7 @@
             </div>
         </form>
     </div>
-</dialog>
+</div>
+
 
 
