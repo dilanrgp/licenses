@@ -50,5 +50,5 @@
     </table>
 </div>
 @if(selectedTemplate()){
-<app-license-template-modal [templateData]="selectedTemplate()" (closed)="clearSelectedTemplate($event)" />
+<app-license-template-modal [inputData]="selectedTemplate()" (closed)="clearSelectedTemplate($event)" />
 }

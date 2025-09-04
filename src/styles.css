@@ -117,3 +117,7 @@ body {
 .tox-promotion {
   display: none !important;
 }
+.modal-box { overflow: visible; }
+
+/* Por si necesitas “vencer” otros z-index internos */
+.tox { z-index: 2147483640 !important; }

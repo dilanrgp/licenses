@@ -10,6 +10,7 @@ import { TermsConditionsTableComponent } from "@components/table-list/terms-cond
 import { ChangeLanguagePipe } from "@pipes/change-language.pipe";
 import { TermsConditionsService } from "@services/terms-conditions.service";
 import { TermsAndConditions } from "@interfaces/terms-conditions.interface";
+import { LoaderService } from "@services/loader.service";
 
 @Component({
   selector: 'app-terms-conditions',
@@ -20,6 +21,7 @@ export default class TermsConditionsComponent {
 
   // loaderService = inject(LoaderService);
   localeService = inject(LocaleService);
+  loaderService = inject(LoaderService);
   termsService = inject(TermsConditionsService);
   paginationService = inject(PaginationService);
 

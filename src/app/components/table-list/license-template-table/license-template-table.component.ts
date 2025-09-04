@@ -36,7 +36,8 @@ export class LicenseTemplateTableComponent {
   });
 
   selectTemplate(template: LicenseTemplate) {
-    this.selectedTemplate.set(template);
+    this.selectedTemplate.set(structuredClone(template));
+    // this.selectedTemplate.set(template);
   }
 
   getActive(active: number) {
@@ -76,6 +77,6 @@ export class LicenseTemplateTableComponent {
 
 
   openModalNewLicenseTemplate(){
-    this.openModal.set(true);
+    this.modalService.open('modal-license-template');
   }
 }

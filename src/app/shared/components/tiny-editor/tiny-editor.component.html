@@ -1,2 +1,2 @@
-<editor [apiKey]="apiKey" [init]="editorConfig"></editor>
+<editor [init]="initConfig()" [ngModel]="_value()" (ngModelChange)="setValue($event)" (onBlur)="handleBlur()"></editor>
 

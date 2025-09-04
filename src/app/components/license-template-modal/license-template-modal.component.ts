@@ -1,4 +1,4 @@
-import { Component, inject, model, output, signal, ViewEncapsulation } from '@angular/core';
+import { Component, inject, input, linkedSignal, model, output, signal, ViewEncapsulation } from '@angular/core';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { FormBuilder, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { LicenseTemplate } from '@interfaces/license-template.interface';
@@ -23,7 +23,10 @@ export class LicenseTemplateModalComponent {
   fb = inject(FormBuilder);
   messageService = inject(ToastMessageService);
   
-  templateData = model.required<LicenseTemplate | null>();
+  inputData = input<LicenseTemplate | null>(null);
+  templateData = linkedSignal( () => this.inputData());
+
+  // templateData = model.required<LicenseTemplate | null>();
   editorData = signal('<p>Hola, prueba CKEditor con tablas!</p>');
 
   loading = signal(false);

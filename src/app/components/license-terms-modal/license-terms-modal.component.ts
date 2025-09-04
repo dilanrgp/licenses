@@ -1,4 +1,4 @@
-import { Component, model, output, signal, effect, inject } from '@angular/core';
+import { Component, model, output, signal, effect, inject, input, linkedSignal } from '@angular/core';
 import { FormBuilder, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ToastMessageComponent } from '@components/toast-message/toast-message.component';
 import { TermsAndConditions } from '@interfaces/terms-conditions.interface';
@@ -22,7 +22,9 @@ export class LicenseTermsModalComponent {
   modalService = inject(ModalService);
   termsService = inject(TermsConditionsService);
   fb = inject(FormBuilder);
-  termData = model.required<TermsAndConditions | null>();
+  inputData = input<TermsAndConditions | null>(null);
+  termData = linkedSignal( () => this.inputData());
+  // termData = model.required<TermsAndConditions | null>();
   loading = signal(false);
   defaultTerm = signal(false);
   loadingDefault = signal(false);
