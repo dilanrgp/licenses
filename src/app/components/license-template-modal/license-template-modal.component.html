@@ -44,9 +44,16 @@
                     <legend class="fieldset-legend" [class.input-error]="isInvalid('logo')">
                         {{ 'license_template.table.logo' | changeLanguage }}
                     </legend>
-                    <input type="file" class="file-input grow w-full"
+                    @if(!templateForm.get('logo')?.value) {
+                    <input type="file" class="file-input grow w-full" (change)="onLogoSelected($event)" formControlName="logo"
                         [placeholder]="'license_template.table.logo' | changeLanguage"
                         [class.input-error]="isInvalid('logo')" />
+                    } @else {
+                    <div class="flex items-center gap-2">
+                        <span>{{ getLogoName() }}</span>
+                        <button type="button" class="btn btn-xs btn-circle btn-ghost" (click)="removeLogo()">✕</button>
+                    </div>
+                    }
                     <form-error-label [control]="templateForm.get('logo')!" />
                 </fieldset>
             </div>

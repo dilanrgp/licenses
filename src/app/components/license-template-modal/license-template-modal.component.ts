@@ -141,12 +141,27 @@ export class LicenseTemplateModalComponent {
       return firstValueFrom(this.licenseTemplateService.createTermsAndConditions(template));
     }
   
-    // Actualizar término existente
-    private async updateTerm(templateId: number, template: LicenseTemplate) {
-      return firstValueFrom(this.licenseTemplateService.updateTermsAndConditions(templateId, template));
-    }
+  // Actualizar término existente
+  private async updateTerm(templateId: number, template: LicenseTemplate) {
+    return firstValueFrom(this.licenseTemplateService.updateTermsAndConditions(templateId, template));
+  }
 
-  
+  onLogoSelected(event: Event) {
+    const file = (event.target as HTMLInputElement).files?.[0];
+    if (file) {
+      this.templateForm.get('logo')?.setValue(file.name);
+      this.templateForm.get('logo')?.markAsTouched();
+    }
+  }
+
+  getLogoName(): string {
+    return this.templateForm.get('logo')?.value || '';
+  }
+
+  removeLogo() {
+    this.templateForm.get('logo')?.setValue('');
+  }
+
   onClose() {
     this.modalService.close('modal-license-template');
     this.closed.emit(this.templateData()!);
