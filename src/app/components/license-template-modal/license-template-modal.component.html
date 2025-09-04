@@ -49,7 +49,7 @@
                         [placeholder]="'license_template.table.logo' | changeLanguage"
                         [class.input-error]="isInvalid('logo')" />
                     } @else {
-                    <div class="flex items-center gap-2">
+                    <div class="flex h-12 items-center gap-2">
                         <span>{{ getLogoName() }}</span>
                         <button type="button" class="btn btn-xs btn-circle btn-ghost" (click)="removeLogo()">✕</button>
                     </div>
