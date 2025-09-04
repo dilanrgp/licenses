@@ -25,8 +25,6 @@ export class TinyEditorComponent {
     plugins: 'lists link image table code',
     toolbar: 'undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | indent outdent | bullist numlist',
     license_key: 'gpl',
-    ui_container: '#tiny-ui-root',
-    fixed_toolbar_container: '#tiny-toolbar',
   });
 
   textChanged = output<string>();
