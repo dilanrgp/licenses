@@ -31,7 +31,11 @@ export class LicenseTemplateTableComponent {
         const modal = document.getElementById(
           'modal-license-template'
         ) as HTMLDialogElement;
-        modal?.showModal();
+        modal?.show();
+        if (modal) {
+          let overlay = document.getElementById('modal-overlay') as HTMLDivElement;
+          overlay.classList.remove('overlay-hidden');
+        }
       }, 2);
     }
   });

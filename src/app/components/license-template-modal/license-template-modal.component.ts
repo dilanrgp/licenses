@@ -147,6 +147,8 @@ export class LicenseTemplateModalComponent {
       'modal-license-template'
     ) as HTMLDialogElement;
     modal.close();
+    let overlay = document.getElementById('modal-overlay') as HTMLDivElement;
+    overlay.classList.add('overlay-hidden');
     this.closed.emit(this.templateData()!);
     this.templateForm.reset();
   }
