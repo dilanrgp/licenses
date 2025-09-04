@@ -18,7 +18,7 @@ export class TinyEditorComponent {
     base_url: '/tinymce',
     suffix: '.min',
     plugins: 'lists link image table code',
-    toolbar: 'undo redo | bold italic | alignleft aligncenter alignright'
+    toolbar: 'undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | indent outdent | bullist numlist',
   };
 }
 
