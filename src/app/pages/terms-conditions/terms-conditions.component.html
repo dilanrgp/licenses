@@ -18,10 +18,7 @@
         }
         <!--  -->
         @if (termsResource.hasValue()){
-        <app-terms-conditions-table
-            [termResponse]="termsResource.value()"
-            (termSelected)="selectTermFromTable($event)"
-            [updatedTerm]="updatedTerm()" />
+        <app-terms-conditions-table [termResponse]="termsResource.value()" [updatedTerm]="updatedTerm()" (termSelected)="selectTermFromTable($event)" />
         }
     </div>
     @if (termsResource.hasValue()) {
@@ -29,6 +26,4 @@
     }
     }
 </div>
-<app-license-terms-modal
-    [inputData]="selectedTerm()"
-    (closed)="onModalClosed($event)" />
+<app-license-terms-modal [inputData]="selectedTerm()" (closed)="onModalClosed($event)" />
