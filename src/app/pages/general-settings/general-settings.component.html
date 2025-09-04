@@ -24,7 +24,11 @@
                     </div>
                 }
                 @if (licensesTemplateResource.hasValue()){
-                    <app-license-template-table [licenseTemplateData]="licensesTemplateResource.value()" />
+                    <app-license-template-table
+                        [licenseTemplateData]="licensesTemplateResource.value()"
+                        [updatedTemplate]="updatedTemplate()"
+                        (templateSelected)="selectTemplateFromTable($event)"
+                        (newTemplate)="openModalNewTemplate()" />
                 }
             </div>
             @if (licensesTemplateResource.hasValue()) {
@@ -36,3 +40,4 @@
     }
 
 </div>
+<app-license-template-modal [inputData]="selectedTemplate()" (closed)="onModalClosed($event)" />
