@@ -101,9 +101,10 @@ export class LicenseTemplateTableComponent {
   licenseTemplates = linkedSignal(() => this.licenseTemplateData().data as LicenseTemplate[]);
   openModal = signal(false);
   selectedTemplate = signal<LicenseTemplate | null>(null);
-
+  
   modalEffect = effect(() => {
-
+    
+    console.log("🚀 ~ LicenseTemplateTableComponent ~ licenseTemplates:", this.licenseTemplates)
     if (this.openModal()) {
       this.selectedTemplate.set(null);
     }

@@ -103,6 +103,7 @@ export const TRANSLATIONS = {
       tabs: {
         general: 'General',
         templates: 'License Template',
+        terms: 'Terms and Conditions',
       }
     },
 
@@ -243,6 +244,7 @@ export const TRANSLATIONS = {
       tabs: {
         general: 'General',
         templates: 'Plantillas Licencias',
+        terms: 'Términos y Condiciones',
       }
     },
 

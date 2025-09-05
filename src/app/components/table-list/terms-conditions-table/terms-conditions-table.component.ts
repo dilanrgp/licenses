@@ -20,6 +20,7 @@ export class TermsConditionsTableComponent {
 
   termResponse = input.required<ApiTermsResponse>();
   termSelected = output<TermsAndConditions>();
+  termNew = output<boolean>();
   updatedTerm = input<TermsAndConditions | null>();
   sanitizer = inject(DomSanitizer);
 
@@ -83,5 +84,9 @@ export class TermsConditionsTableComponent {
 
     return this.sanitizer.bypassSecurityTrustHtml(sliceTerm);
   }
+
+  openModalNewTerm(){
+    this.termNew.emit(true);
+  }    
 }
 
