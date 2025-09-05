@@ -49,3 +49,6 @@
         </tbody>
     </table>
 </div>
+@if(selectedTemplate()){
+<app-license-template-modal [inputData]="selectedTemplate()" (closed)="clearSelectedTemplate($event)" />
+}

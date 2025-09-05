@@ -59,11 +59,12 @@ export default class GeneralSettingsComponent {
   }
 
   selectTemplateFromTable(template: LicenseTemplate) {
-    this.selectedTemplate.set(template);
+    this.selectedTemplate.update(() => template);
     this.modalService.open('modal-license-template');
   }
 
-  openModalNewTemplate() {
+  openModalNewTemplate(event: boolean) {
+    console.log("🚀 ~ GeneralSettingsComponent ~ openModalNewTemplate ~ event:", event)
     this.selectedTemplate.set(null);
     this.modalService.open('modal-license-template');
   }

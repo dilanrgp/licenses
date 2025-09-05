@@ -1,4 +1,4 @@
-import { Component, computed, effect, inject, input, model, output, signal } from '@angular/core';
+import { Component, computed, effect, inject, input, linkedSignal, model, output, signal } from '@angular/core';
 import { License } from '../../interfaces/license.interface';
 import { DatePipe, JsonPipe, TitleCasePipe } from '@angular/common';
 import { ChangeLanguagePipe } from '../../pipes/change-language.pipe';
@@ -21,9 +21,10 @@ export class LicenseModalComponent {
   modalService = inject(ModalService);
   licenseService = inject(LicenseService);
   messageService = inject(ToastMessageService);
-  loaderService = inject(LoaderService);
 
-  licenseData = model<License | null>(null);
+  // licenseData = model<License | null>(null);
+  inputData = input<License | null>(null);
+  licenseData = linkedSignal( () => this.inputData());
 
   loading = signal(false);
   licenseFiles = computed(() => this.licenseData()?.license_file ?? []);

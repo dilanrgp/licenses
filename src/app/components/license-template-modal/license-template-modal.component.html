@@ -64,6 +64,7 @@
                         {{ 'license_template.table.content' | changeLanguage }}
                     </legend>
                     <app-tiny-editor formControlName="content" />
+                    <!-- <app-tiny-editor [content]="templateForm.get('content')?.value ?? ''" (textChanged)="templateForm.get('content')?.setValue($event)" /> -->
                     <form-error-label [control]="templateForm.get('content')!" />
                 </fieldset>
 

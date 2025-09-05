@@ -1,4 +1,4 @@
-import { Component, inject, input, linkedSignal, model, output, signal, ViewEncapsulation } from '@angular/core';
+import { Component, effect, inject, input, linkedSignal, model, output, signal, ViewEncapsulation } from '@angular/core';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { FormBuilder, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { LicenseTemplate } from '@interfaces/license-template.interface';
@@ -42,6 +42,23 @@ export class LicenseTemplateModalComponent {
     content: ['', [Validators.required]],
     active: [0, [Validators.required]],
   });
+
+  // licensesTemplateEffect = effect(() => {
+    
+  //   const template = this.templateData();
+  //   console.log("🚀 ~ LicenseTemplateModalComponent ~ template:", template)
+  //   if (template) {
+  //     this.templateForm.patchValue({
+  //       type_id: template.type_id!,
+  //       title: template.title,
+  //       logo: template.logo,
+  //       content: template.content,
+  //       active: template.active,
+  //     });
+
+  //     // this.defaultTerm.set(term.default!);
+  //   }
+  // });
 
   licensesTemplateResource = rxResource({
     params: () => ({ template: this.templateData() }),

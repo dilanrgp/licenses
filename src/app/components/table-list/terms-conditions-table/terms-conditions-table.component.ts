@@ -25,14 +25,12 @@ export class TermsConditionsTableComponent {
 
   terms = linkedSignal(() => this.termResponse().data);
 
-  constructor() {
-    effect(() => {
-      const term = this.updatedTerm();
-      if (term) {
-        this.updateTermsList(term);
-      }
-    });
-  }
+  updateEffect = effect(() => {
+    const term = this.updatedTerm();
+    if (term) {
+      this.updateTermsList(term);
+    }
+  });
 
   selectTerm(term: TermsAndConditions) {
     this.termSelected.emit(term);

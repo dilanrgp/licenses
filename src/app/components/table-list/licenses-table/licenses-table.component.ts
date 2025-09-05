@@ -20,14 +20,12 @@ export class LicensesTableComponent {
   licenses = linkedSignal(() => this.licenseResponse().data as License[]);
   selectedIds = signal<number[]>([]);
 
-  constructor() {
-    effect(() => {
-      const license = this.updatedLicense();
-      if (license) {
-        this.updateLicenseList(license);
-      }
-    });
-  }
+  updateEffect = effect(() => {
+    const license = this.updatedLicense();
+    if (license) {
+      this.updateLicenseList(license);
+    }
+  });
 
   allSelected(): boolean {
     const allIds = this.licenses().map((l) => l.id);
