@@ -1,6 +1,5 @@
 /* You can add global styles to this file, and also import other style files */
 
-@import 'quill/dist/quill.snow.css';
 @import "tailwindcss";
 @plugin 'tailwind-scrollbar';
 @plugin "daisyui" {
@@ -8,14 +7,14 @@
 }
 
 body {
-  background: url("/assets/images/background_body.webp") no-repeat center;
+  background: url(assets/images/background_body.webp) no-repeat center;
   background-size: cover;
 }
 
 .header-lang {
     color: white;
     background-position: center bottom 0px;
-    background-image: linear-gradient(90deg, rgba(255, 255, 255, 0.7) 0%, rgba(50, 36, 74, 0.64) 100%), url("/assets/images/header-bar-scaled.jpg");
+    background-image: linear-gradient(90deg, rgba(255, 255, 255, 0.7) 0%, rgba(50, 36, 74, 0.64) 100%), url(assets/images/header-bar-scaled.jpg);
 }
 
 @layer utilities {
@@ -105,7 +104,7 @@ body {
 }
 
 /* ESTILOS PARA EL CKEDITOR */
-@import '@ckeditor/ckeditor5-theme-lark/theme/index.css';
+@import "ckeditor5/ckeditor5.css";
 .my-ckeditor-wrapper :where(.ck) {
   all: revert; /* mucho más seguro que initial */
 }

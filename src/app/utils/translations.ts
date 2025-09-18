@@ -13,6 +13,8 @@ export const TRANSLATIONS = {
       resend_license: 'Resend License',
       select_all: 'Select All',
       send_license: 'Send License',
+      updated_success: 'Updated successfully',
+      created_success: 'Created successfully',
     },
 
     navbar: {
@@ -34,6 +36,7 @@ export const TRANSLATIONS = {
         idmaterial: 'Part Number',
         order_position: 'Order position',
         serial_number: 'Serial Number',
+        serial_numbers: 'Serial Numbers',
         status: 'Status',
         no_licenses: 'No licenses to download',
       },
@@ -68,8 +71,6 @@ export const TRANSLATIONS = {
         default: 'Default',
         description: 'Description',
         title: 'Title',
-        updated_success: 'Updated successfully',
-        created_success: 'Created successfully',
       },
 
       modal: {
@@ -93,7 +94,36 @@ export const TRANSLATIONS = {
       },
 
       modal: {
-        title: 'License Template'
+        title: 'License Template',
+        keyword_title: 'Keywords',
+        keyword_copied: 'Keyword copied'
+      }
+    },
+
+    keyword: {
+      serial_number_bar_code: 'Barcode for the serial number.',
+      start_date: 'Date in format (dd/mm/yyyy)',
+      end_date: 'Date in format (dd/mm/yyyy): Sum of Start Date + Valid Period',
+      valid_period: 'Period in months: Sum of Duration + Extended Term',
+      extended_term_sdlanet: '1 month fixed value',
+      valid_period_sdlanet: 'Period in months: Sum of Duration + Extended Term SDLANET',
+      start_date_sdlanet: '2 dates in format (dd/mm/yyyy): Start Date + "to" + Sum of Start Date + Extended Term SDLANET',
+      end_date_sdlanet: 'Date in format (dd/mm/yyyy): Sum of Start Date + Valid Period SDLANET',
+    },
+
+    email_body: {
+      name: 'Customer Email Template',
+
+      table: {
+        description: 'License Type',
+        template: 'Email Template',
+        content: 'Content',
+        active: 'Active',
+        no_email_bodies: 'No email templates found',
+      },
+
+      modal: {
+        title: 'Customer Email Template'
       }
     },
 
@@ -101,7 +131,7 @@ export const TRANSLATIONS = {
       name: 'Settings',
 
       tabs: {
-        general: 'General',
+        email_bodies: 'Customer Email Template',
         templates: 'License Template',
         terms: 'Terms and Conditions',
       }
@@ -115,6 +145,7 @@ export const TRANSLATIONS = {
       sending_mail: 'Error sending email to client, license status does not allow sending',
       no_records: 'No records found',
       form_invalid: 'There are errors in the form',
+      obtaining_email_bodies: 'Error obtaining email content',
     },
 
     success: {},
@@ -155,6 +186,8 @@ export const TRANSLATIONS = {
       resend_license: 'Reenviar Licencia',
       select_all: 'Seleccionar Todos',
       send_license: 'Enviar Licencia',
+      updated_success: 'Modificado satisfactoriamente',
+      created_success: 'Creado satisfactoriamente',
     },
 
     navbar: {
@@ -176,6 +209,7 @@ export const TRANSLATIONS = {
         idmaterial: 'Número de pieza',
         order_position: 'Pedido posición',
         serial_number: 'Número de serie',
+        serial_numbers: 'Números de serie',
         status: 'Estado',
         no_licenses: 'Sin licencias para descargar',
       },
@@ -209,8 +243,6 @@ export const TRANSLATIONS = {
         description: 'Descripción',
         default: 'Predeterminado',
         available_download: 'Se puede descargar?',
-        updated_success: 'Modificado satisfactoriamente',
-        created_success: 'Creado satisfactoriamente',
       },
 
       modal: {
@@ -234,7 +266,36 @@ export const TRANSLATIONS = {
       },
 
       modal: {
-        title: 'Plantilla de licencia'
+        title: 'Plantilla de licencia',
+        keyword_title: 'Palabras clave',
+        keyword_copied: 'Palabra clave copiada'
+      }
+    },
+
+    keyword: {
+      serial_number_bar_code: 'Código de barra del número de serie.',
+      start_date: 'Fecha en formato (dd/mm/aaaa)',
+      end_date: 'Fecha en formato (dd/mm/aaaa): Suma de la fecha de inicio + periodo válido',
+      valid_period: 'Periodo en meses: Suma de la duración + plazo ampliado', 
+      extended_term_sdlanet: 'Valor fijo de 1 mes', 
+      valid_period_sdlanet: 'Periodo en meses: Suma de la duración + plazo ampliado SDLANET', 
+      start_date_sdlanet: '2 fechas en formato (dd/mm/aaaa): Fecha de inicio + «hasta» + Suma de la fecha de inicio + Plazo ampliado SDLANET', 
+      end_date_sdlanet: 'Fecha en formato (dd/mm/aaaa): Suma de la fecha de inicio + Periodo válido SDLANET', 
+    },
+
+    email_body: {
+      name: 'Plantilla Correo Cliente',
+
+      table: {
+        description: 'Tipo Licencia',
+        template: 'Plantilla de Correo Electrónico',
+        content: 'Contenido',
+        active: 'Activo',
+        no_email_bodies: 'No se encontraron plantillas de correo electrónico',
+      },
+
+      modal: {
+        title: 'Plantilla Correo Cliente'
       }
     },
 
@@ -242,7 +303,7 @@ export const TRANSLATIONS = {
       name: 'Configuraciones',
 
       tabs: {
-        general: 'General',
+        email_bodies: 'Plantilla Correo Cliente',
         templates: 'Plantillas Licencias',
         terms: 'Términos y Condiciones',
       }
@@ -256,6 +317,7 @@ export const TRANSLATIONS = {
       sending_mail: 'Error enviando el correo al cliente, el estado de la licencia no permite el envío',
       no_records: 'No se encontraron registros',
       form_invalid: 'Tiene errores en el formulario',
+      obtaining_email_bodies: 'Error obteniendo el contenido de correo electrónico',
     },
 
     success: {},

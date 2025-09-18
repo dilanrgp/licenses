@@ -1,4 +1,4 @@
-import { Component, effect, inject, input, linkedSignal, model, output, signal, ViewEncapsulation } from '@angular/core';
+import { Component, inject, input, linkedSignal, output, signal } from '@angular/core';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { FormBuilder, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { LicenseTemplate } from '@interfaces/license-template.interface';
@@ -6,14 +6,16 @@ import { Type } from '@interfaces/type.interface';
 import { ChangeLanguagePipe } from '@pipes/change-language.pipe';
 import { LicenseTemplateService } from '@services/license-templates.service';
 import { FormErrorLabelComponent } from '@shared/components/form-error-label/form-error-label.component';
-import { firstValueFrom, of } from 'rxjs';
+import { firstValueFrom, forkJoin, map, of, tap } from 'rxjs';
 import { ToastMessageService } from '@services/toast-message.service';
 import { TinyEditorComponent } from '@shared/components/tiny-editor/tiny-editor.component';
 import { ModalService } from '@services/modal.service';
+import { Keyword } from '@interfaces/keywords.interface';
+import { ToastMessageComponent } from '@components/toast-message/toast-message.component';
 
 @Component({
   selector: 'app-license-template-modal',
-  imports: [ChangeLanguagePipe, FormsModule, ReactiveFormsModule, FormErrorLabelComponent, TinyEditorComponent],
+  imports: [ChangeLanguagePipe, FormsModule, ReactiveFormsModule, FormErrorLabelComponent, TinyEditorComponent, ToastMessageComponent],
   templateUrl: './license-template-modal.component.html'
 })
 export class LicenseTemplateModalComponent {
@@ -23,14 +25,15 @@ export class LicenseTemplateModalComponent {
   fb = inject(FormBuilder);
   messageService = inject(ToastMessageService);
   
-  inputData = input<LicenseTemplate | null>(null);
-  templateData = linkedSignal( () => this.inputData());
-
-  // templateData = model.required<LicenseTemplate | null>();
-  editorData = signal('<p>Hola, prueba CKEditor con tablas!</p>');
+  inputTemplateData = input<LicenseTemplate | null>(null);
+  templateData = linkedSignal( () => this.inputTemplateData());
 
   loading = signal(false);
   types = signal<Type[]>([]);
+  urlLogo = signal<string | null>(null);
+  logoPath = signal<string | null>(null);
+
+  keywords = signal<Keyword[]>([]);
 
   // Outputs
   closed = output<LicenseTemplate>();
@@ -38,110 +41,84 @@ export class LicenseTemplateModalComponent {
   templateForm = this.fb.group({
     type_id: [1, [Validators.required]],
     title: ['', [Validators.required, Validators.minLength(3)]],
-    logo: ['', [Validators.required]],
+    logo: [null as File | null, []],
     content: ['', [Validators.required]],
     active: [0, [Validators.required]],
   });
 
-  // licensesTemplateEffect = effect(() => {
-    
-  //   const template = this.templateData();
-  //   console.log("🚀 ~ LicenseTemplateModalComponent ~ template:", template)
-  //   if (template) {
-  //     this.templateForm.patchValue({
-  //       type_id: template.type_id!,
-  //       title: template.title,
-  //       logo: template.logo,
-  //       content: template.content,
-  //       active: template.active,
-  //     });
 
-  //     // this.defaultTerm.set(term.default!);
-  //   }
-  // });
-
-  licensesTemplateResource = rxResource({
+  typesResource = rxResource({
     params: () => ({ template: this.templateData() }),
     stream: ({ params }) => {
 
-      this.loadTypes();
-      
-      console.log("🚀 ~ LicenseTemplatesModalComponent ~ params.template:", params.template)
-      if (params.template) {
-          this.templateForm.patchValue({
-            type_id: params.template.type_id!,
-            title: params.template.title,
-            logo: params.template.logo,
-            content: params.template.content,
-            active: params.template.active,
-          });
+      const types$ = this.licenseTemplateService.getTypes();
+      const keywords$ = this.licenseTemplateService.getKeywords();
 
-          // this.defaultTerm.set(term.default!);
-      }
-      
+      return forkJoin({ types: types$, keywords: keywords$ }).pipe(
+        tap(({ keywords }) => {
+          
+          if (params.template) {
+            
+            this.templateForm.patchValue({
+              type_id: params.template.type_id!,
+              title: params.template.title,
+              content: params.template.content,
+              active: params.template.active,
+            });
 
-      return of([]);
-      
+            const fileName = params.template.logo?.split('/').pop() ?? '';
+            const logoUrl = this.licenseTemplateService.getUrlLogoTemplate(fileName);
+            this.urlLogo.set(logoUrl);
+            this.logoPath.set(params.template.logo);
 
+            this.keywords.set(keywords);
+          }
+        }),
+        map(({ types }) => types)
+      );
     },
   });
 
-  private loadTypes(): void {
-
-    this.licenseTemplateService.getTypes()
-      .subscribe({
-        next: (response) => {
-          this.types.set(response.data);
-        },
-        error: () => {
-          this.types.set([]);
-        }
+  copyKeyword(textToCopy: string){
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(`{{${textToCopy}}}`).then(() => {
+        this.messageService.toast({ originalMessage: 'license_template.modal.keyword_copied', translate: true });
+      }).catch(err => {
+        this.messageService.toast({ originalMessage: 'license_template.modal.keyword_copied_error', translate: true });
       });
+    } else {
+      this.messageService.toast({ originalMessage: 'license_template.modal.keyword_copied_not_supported', translate: true });
+    }
   }
 
-  // templateEffect = effect(() => {
-  //   const term = this.termData();
-  //   if (term) {
-  //     this.termsForm.patchValue({
-  //       default: term.default,
-  //       title_es: term.title_es,
-  //       title_en: term.title_en,
-  //       description_es: term.description_es,
-  //       description_en: term.description_en,
-  //     });
-
-  //     this.defaultTerm.set(term.default!);
-  //   }
-  // });
-
   onSubmit() {
+    this.loading.set(true);
     const isValid = this.templateForm.valid;
     this.templateForm.markAllAsTouched();
-
+    
     if (!isValid) {
       this.messageService.toast({
         originalMessage: 'errors.form_invalid',
         translate: true,
         type: 'error',
       });
+      this.loading.set(false);
       return;
     }
 
-    this.loading.set(true);
-
     setTimeout(async () => {
-      this.loading.set(false);
 
       const licenseTemplateValue = this.templateForm.value;
 
       const licenseTemplateLike: LicenseTemplate = {
         ...(licenseTemplateValue as any),
+        logo_path: this.logoPath()
       };
 
       const result = this.templateData()?.id ? await this.updateTerm(this.templateData()!.id, licenseTemplateLike) : await this.createTerm(licenseTemplateLike);
 
       this.messageService.toast({
-        originalMessage: (this.templateData()?.id) ? 'terms_condition.table.updated_success' : 'terms_condition.table.created_success',
+        originalMessage: (this.templateData()?.id) ? 'common.updated_success' : 'common.created_success',
         translate: true,
       });
       
@@ -150,33 +127,33 @@ export class LicenseTemplateModalComponent {
         ...result.data,
       }));
 
+      this.loading.set(false);
+
     }, 1000);
   }
 
-   // Crear un nuevo término
-    private async createTerm(template: LicenseTemplate) {
-      return firstValueFrom(this.licenseTemplateService.createTermsAndConditions(template));
-    }
+  private async createTerm(template: LicenseTemplate) {
+    const logoFile = this.templateForm.get('logo')?.value as File | null;
+    return firstValueFrom(this.licenseTemplateService.createTemplate(template, logoFile));
+  }
   
-  // Actualizar término existente
   private async updateTerm(templateId: number, template: LicenseTemplate) {
-    return firstValueFrom(this.licenseTemplateService.updateTermsAndConditions(templateId, template));
+    const logoFile = this.templateForm.get('logo')?.value as File | null;
+    return firstValueFrom(this.licenseTemplateService.updateTemplate(templateId, template, logoFile));
   }
 
   onLogoSelected(event: Event) {
-    const file = (event.target as HTMLInputElement).files?.[0];
-    if (file) {
-      this.templateForm.get('logo')?.setValue(file.name);
-      this.templateForm.get('logo')?.markAsTouched();
-    }
-  }
+    const file = (event.target as HTMLInputElement).files?.[0] ?? null;
+    
+    this.templateForm.get('logo')?.setValue(file);
+    this.templateForm.get('logo')?.markAsTouched();
 
-  getLogoName(): string {
-    return this.templateForm.get('logo')?.value || '';
   }
 
   removeLogo() {
-    this.templateForm.get('logo')?.setValue('');
+    this.templateForm.get('logo')?.setValue(null);
+    this.urlLogo.set(null);
+    this.logoPath.set(null);
   }
 
   onClose() {
@@ -189,12 +166,10 @@ export class LicenseTemplateModalComponent {
     const control = this.templateForm.get(controlName);
     const hasError = !!(control && control.invalid && control.touched);
 
-    // Si pasas className → retorna la clase si hay error, si no vacío
     if (className !== null) {
       return hasError ? className : '';
     }
 
-    // Si no pasas className → retorna solo el boolean
     return hasError;
   }
 }

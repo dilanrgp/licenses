@@ -52,6 +52,7 @@ export class LocaleService {
   
 
   translate(keyPath: string, params: Record<string, any> = {}): string {
+
     const keys = keyPath.split('.');
     let translation: any = TRANSLATIONS[this.currentLocal()];
 

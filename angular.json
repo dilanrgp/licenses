@@ -30,16 +30,13 @@
               {
                 "glob": "**/*.svg",
                 "input": "src/app/ckeditor/icons",
-                "output": "/assets/ckeditor-icons/"
+                "output": "assets/ckeditor-icons/"
               },
-              { "glob": "**/*", "input": "node_modules/tinymce", "output": "/tinymce/" }
+              { "glob": "**/*", "input": "node_modules/tinymce", "output": "assets/tinymce/" }
             ],
             "styles": [
               "node_modules/quill/dist/quill.snow.css",
               "src/styles.css"
-            ],
-            "scripts": [
-              "node_modules/tinymce/tinymce.min.js"
             ]
           },
           "configurations": {
@@ -47,8 +44,8 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kB",
-                  "maximumError": "1MB"
+                  "maximumWarning": "900kB",
+                  "maximumError": "1.5MB"
                 },
                 {
                   "type": "anyComponentStyle",
@@ -104,9 +101,9 @@
               {
                 "glob": "**/*.svg",
                 "input": "src/app/ckeditor/icons",
-                "output": "/assets/ckeditor-icons/"
+                "output": "assets/ckeditor-icons/"
               },
-              { "glob": "**/*", "input": "node_modules/tinymce", "output": "/tinymce/" }
+              { "glob": "**/*", "input": "node_modules/tinymce", "output": "assets/tinymce/" }
             ],
             "styles": [
               "node_modules/quill/dist/quill.snow.css",

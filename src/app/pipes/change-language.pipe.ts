@@ -8,6 +8,12 @@ export class ChangeLanguagePipe implements PipeTransform {
   constructor(private localeService: LocaleService) {}
 
   transform(key: string, params?: Record<string, any>): string {
-    return this.localeService.translate(key, params);
+
+    if (key) {
+      const prefix = "translate:";
+      key = key.startsWith(prefix) ? key.slice(prefix.length) : key;
+    }
+
+    return (key) ? this.localeService.translate(key, params) : '';
   }
 }

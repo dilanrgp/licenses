@@ -18,7 +18,8 @@ import {
   ApiOneLicenseTemplateResponse,
   LicenseTemplate,
 } from '@interfaces/license-template.interface';
-import { ApiTypeResponse } from '@interfaces/type.interface';
+import { ApiTypeResponse, Type } from '@interfaces/type.interface';
+import { ApiKeywordsResponse, Keyword } from '@interfaces/keywords.interface';
 
 const loadFromToLocalStorage = () => {
   const tokenFromLocalStorage =
@@ -40,9 +41,7 @@ export class LicenseTemplateService {
   private licenseTemplatesCache = new Map<string, ApiLicenseTemplateResponse>();
   private licenseTemplateCache = new Map<number, LicenseTemplate>();
 
-  getLicenseTemplates(
-    options: Options
-  ): Observable<ApiLicenseTemplateResponse> {
+  getLicenseTemplates(options: Options): Observable<ApiLicenseTemplateResponse> {
     const { page = '' } = options;
     const token = ''; // TODO: ESTO DEBE SUSTITUIRSE POR EL TOKEN QUE PROPORCIONARA EL BACKEND
 
@@ -52,8 +51,7 @@ export class LicenseTemplateService {
       return of(this.licenseTemplatesCache.get(key)!);
     }
 
-    return this.http
-      .get<ApiLicenseTemplateResponse>(`${this.baseUrl}/license-templates`, {
+    return this.http.get<ApiLicenseTemplateResponse>(`${this.baseUrl}/license-templates`, {
         ...this.headersService.authHeaders(token),
         params: { page },
       })
@@ -73,7 +71,7 @@ export class LicenseTemplateService {
       );
   }
 
-  getTypes(): Observable<ApiTypeResponse> {
+  getTypes(): Observable<Type[]> {
     const token = '';
 
     return this.http
@@ -82,7 +80,7 @@ export class LicenseTemplateService {
       })
       .pipe(
         map((response) => {
-          return response;
+          return response.data;
         }),
         catchError((error) => {
           this.messageService.toast({
@@ -95,19 +93,61 @@ export class LicenseTemplateService {
       );
   }
 
-  createTermsAndConditions(licenseTemplate: LicenseTemplate): Observable<ApiOneLicenseTemplateResponse>{
-      return this.http.post<ApiOneLicenseTemplateResponse>(`${this.baseUrl}/license-templates`, licenseTemplate).pipe(
+
+  getKeywords(): Observable<Keyword[]> {
+    const token = '';
+
+    return this.http.get<ApiKeywordsResponse>(`${this.baseUrl}/keywords`, {
+        ...this.headersService.authHeaders(token),
+      }).pipe(
+        map((response) => {
+          return response.data;
+        }),
+        catchError((error) => {
+          this.messageService.toast({
+            originalMessage: 'errors.obtaining_keywords',
+            type: 'error',
+            translate: true,
+          });
+          return throwError(() => error);
+        })
+      );
+  }
+
+  createTemplate(licenseTemplate: LicenseTemplate, logoFile?: File | null): Observable<ApiOneLicenseTemplateResponse>{
+     const formDataTemplate = this.toFormData(licenseTemplate, logoFile);
+
+      return this.http.post<ApiOneLicenseTemplateResponse>(`${this.baseUrl}/license-templates`, formDataTemplate).pipe(
         tap((template) => {
-          this.updateLicenseTemplateCache(template.data)})
+          this.updateLicenseTemplateCache(template.data)}), catchError((error) => {
+          this.messageService.toast({
+            originalMessage: 'errors.obtaining_types',
+            type: 'error',
+            translate: true,
+          });
+          return throwError(() => error);
+        })
       );
       
     }
 
-  updateTermsAndConditions(templateId: number, licenseTemplate: LicenseTemplate): Observable<ApiOneLicenseTemplateResponse> {
-    return this.http.patch<ApiOneLicenseTemplateResponse>(`${this.baseUrl}/license-templates/${templateId}`, licenseTemplate)
+  updateTemplate(templateId: number, licenseTemplate: LicenseTemplate, logoFile?: File | null): Observable<ApiOneLicenseTemplateResponse> {
+    const formDataTemplate = this.toFormData(licenseTemplate, logoFile);
+
+    formDataTemplate.append('_method', 'PATCH');
+    
+    return this.http.post<ApiOneLicenseTemplateResponse>(`${this.baseUrl}/license-templates/${templateId}`, formDataTemplate)
       .pipe(
         tap((licenseTemplate) => {
           this.updateLicenseTemplateCache(licenseTemplate.data);
+        }),
+        catchError((resp) => {
+          this.messageService.toast({
+            originalMessage: resp.error.errors,
+            type: 'error',
+            translate: true,
+          });
+          return throwError(() => resp.error);
         })
       );
   }
@@ -122,5 +162,32 @@ export class LicenseTemplateService {
         currentTerm.id === templateId ? licenseTemplate : currentTerm
       );
     });
+  }
+
+  private toFormData(template: LicenseTemplate, logoFile?: File | null): FormData {
+    const fd = new FormData();
+
+    fd.append('title', template.title);
+    fd.append('type_id', String(template.type_id));
+    fd.append('content', template.content ?? '');
+
+    if (template.active !== undefined && template.active !== null) {
+      fd.append('active', String(template.active));
+    }
+
+    if (template.logo_path !== null) {
+      fd.append('logo_path', template.logo_path!);
+    }
+    if (logoFile instanceof File) {
+      fd.append('logo', logoFile);
+    }
+
+    return fd;
+  }
+
+  getUrlLogoTemplate(fileName: string): string | null {
+
+    return (fileName) ? `${this.baseUrl}/license-template-logos/${fileName}` : null;
+
   }
 }

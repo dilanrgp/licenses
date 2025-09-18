@@ -9,6 +9,7 @@ import localEn from '@angular/common/locales/en';
 import { LocaleService } from './services/locale.service';
 import { provideHttpClient, withFetch } from '@angular/common/http';
 import { provideQuillConfig } from 'ngx-quill';
+import 'ckeditor5/ckeditor5.css';
 
 registerLocaleData(localEs,'es');
 registerLocaleData(localEn,'en');

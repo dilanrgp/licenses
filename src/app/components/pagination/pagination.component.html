@@ -8,7 +8,7 @@
     }
 
     <!-- Previous Button -->
-    <div class="tooltip tooltip-secondary flex items-center" [attr.data-tip]="'pagination.previus' | changeLanguage">
+    <div class="tooltip tooltip-secondary flex items-center" [attr.data-tip]="'pagination.previous' | changeLanguage">
         <button class="join-item btn btn-xs flex items-center justify-center" [class.btn-disabled]="isFirstPage()"
             [routerLink]="isFirstPage() ? null : []" [queryParams]="{ page: activePage() - 1 }"
             (click)="goToPrevious()">

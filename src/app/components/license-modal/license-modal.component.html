@@ -5,7 +5,7 @@
                 <span class="loading loading-spinner text-secondary"></span>
         </div>
         }
-        <div class="modal-box max-w-7xl">
+        <div class="modal-box max-w-7xl animate-fade-in">
                 <button type="button" class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2" (click)="onClose()">✕</button>
                 @if (licenseData(); as license) {
 			<div class="flex justify-between items-start mt-5">
@@ -16,15 +16,18 @@
 
 					</div>
 				</div>
-				<div class="flex gap-1">
-					@if (license.license_status_id <= 2){ 
-						<button class="btn btn-xs btn-success rounded-sm" (click)="sendMail()" [disabled]="license.license_status_id > 2">{{ textButtonSend() | changeLanguage }}</button>
-					}
-					<!--  -->
-					@if (license.license_status_id == 1){
-						<button class="btn btn-xs btn-error rounded-sm" [disabled]="license.license_status_id > 3">{{ 'common.delete_license' | changeLanguage }}</button>
-					}
-				</div>
+				@if(license.have_type){
+					<div class="flex gap-1">
+						@if (license.license_status_id <= 2){ 
+							<button class="btn btn-xs btn-success rounded-sm" (click)="sendMail()" [disabled]="license.license_status_id > 2">{{ textButtonSend() | changeLanguage }}</button>
+						}
+						<!--  -->
+						@if (license.license_status_id == 1){
+							<button class="btn btn-xs btn-error rounded-sm" [disabled]="license.license_status_id > 3">{{ 'common.delete_license' | changeLanguage }}</button>
+						}
+					</div>
+
+				}
 			</div>
 
 		<!-- TODO: QUITAR AL PASAR A PRODUCCION -->
@@ -37,7 +40,7 @@
 			</svg>
 			<span>Esto solo es para el ambiente de desarrollo</span>
 			<p><a target="_blank" class="link link-accent"
-					[href]="`http://localhost:4200/conditions/${license.client_token}`">Enlace correo cliente</a></p>
+					[href]="`https://licences.teldat.com/conditions/${license.client_token}`">Enlace correo cliente</a></p>
 		</div>
 		}
 		<!-- TODO: QUITAR AL PASAR A PRODUCCION -->
@@ -171,7 +174,7 @@
 							</div>
 							<div class="flex justify-between">
 								<span class="text-gray-500">{{ 'license.modal.serial_number' | changeLanguage }}:</span>
-								<span class="font-medium">{{ license.serial_number }}</span>
+								<span class="font-medium text-right">{{ license.serial_number }}</span>
 							</div>
 							<div class="flex justify-between">
 								<span class="text-gray-500">{{ 'license.modal.license_code' | changeLanguage }}:</span>

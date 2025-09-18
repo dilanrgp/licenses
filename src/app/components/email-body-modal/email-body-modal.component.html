@@ -1,0 +1,55 @@
+<div id="modal-email-body" class="modal">
+    <app-toast-message/>
+    @if(loading()){
+    <div class="overlay">
+        <span class="loading loading-spinner text-secondary"></span>
+    </div>
+    }
+    <div class="modal-box max-w-7xl ">
+        <button type="button" class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2" (click)="onClose()">✕</button>
+
+        <form [formGroup]="emailBodyForm" (ngSubmit)="onSubmit()">
+            <div class="flex justify-between items-center mb-4 mt-5">
+                <div>
+                    <h3 class="text-xl font-bold">{{ 'email_body.modal.title' | changeLanguage}} </h3>
+                </div>
+                <button class="btn btn-xs btn-secondary rounded-sm">{{ 'common.button_save' | changeLanguage}}</button>
+            </div>
+
+            <div class="flex gap-4">
+                <fieldset class="fieldset flex-1 gap-0 py-0">
+                    <legend class="fieldset-legend" [class.input-error]="isInvalid('description')">
+                        {{ 'email_body.table.description' | changeLanguage }}
+                    </legend>
+                    <input type="text" class="input grow w-full"
+                        [placeholder]="'email_body.table.description' | changeLanguage" formControlName="description"
+                        [class.input-error]="isInvalid('description')" />
+                    <form-error-label [control]="emailBodyForm.get('description')!" />
+                </fieldset>
+
+                <fieldset class="fieldset flex-1 gap-0 py-0">
+                    <legend class="fieldset-legend" [class.input-error]="isInvalid('template')">
+                        {{ 'email_body.table.template' | changeLanguage }}
+                    </legend>
+                    <input type="text" class="input grow w-full"
+                        [placeholder]="'email_body.table.template' | changeLanguage" formControlName="template"
+                        [class.input-error]="isInvalid('template')" />
+                    <form-error-label [control]="emailBodyForm.get('template')!" />
+                </fieldset>
+            </div>
+
+            <fieldset class="fieldset gap-0 py-0">
+                <legend class="fieldset-legend" [class.input-error]="isInvalid('content')">
+                    {{ 'email_body.table.content' | changeLanguage }}
+                </legend>
+                <div [class]="isInvalid('content', 'border rounded border-red-500')">
+                    <quill-editor class="h-90 w-full" theme="snow" [placeholder]="'email_body.table.content' | changeLanguage" formControlName="content" [modules]="modules"></quill-editor>
+                </div>
+                <form-error-label [control]="emailBodyForm.get('content')!" />
+            </fieldset>
+        </form>
+    </div>
+</div>
+
+
+

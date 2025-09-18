@@ -32,6 +32,7 @@ export interface LicenseTemplate {
   updated_at: Date;
   deleted_at: null;
   type:       Type;
+  logo_path?: string;
 }
 
 

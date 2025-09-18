@@ -4,47 +4,65 @@
     <app-skeleton [pageName]="'settings'" />
     } @else {
     <h1 class="text-3xl font-bold text-[#32244a]">{{ pageTitle() }}</h1>
-    
+
     <div class="tabs tabs-lift">
-        <!-- GENERAL -->
-        <input type="radio" name="my_tabs_3" class="tab" [attr.aria-label]="'general_settings.tabs.general' | changeLanguage" checked="checked" />
+        <!-- EMAIL BODIES -->
+        <input type="radio" name="my_tabs_3" class="tab"
+            [attr.aria-label]="'general_settings.tabs.email_bodies' | changeLanguage" checked="checked" />
         <div class="tab-content bg-base-100 border-base-300 p-6">
-            <div class="overflow-y-auto p-2 pr-4 scrollbar-thin scrollbar-thumb-[#32244a] scrollbar-track-transparent h-[50vh]">
+            <div
+                class="overflow-y-auto p-2 pr-4 scrollbar-thin scrollbar-thumb-[#32244a] scrollbar-track-transparent h-[50vh]">
+                @if( emailBodiesResource.isLoading() ) {
+                <div class="flex justify-center items-center h-full">
+                    <span class="loading loading-spinner loading-lg"></span>
+                </div>
+                }
+                @if (emailBodiesResource.hasValue()){
+                <app-email-body-table [emailBodyResponse]="emailBodiesResource.value()"
+                    [updatedEmailBody]="updatedEmailBody()" (emailBodySelected)="selectEmailBodyFromTable($event)" />
+                    
+                }
             </div>
         </div>
 
         <!-- TERMS AND CONDITIONS -->
-         <input type="radio" name="my_tabs_3" class="tab" [attr.aria-label]="'general_settings.tabs.terms' | changeLanguage"/>
+        <input type="radio" name="my_tabs_3" class="tab"
+            [attr.aria-label]="'general_settings.tabs.terms' | changeLanguage" />
         <div class="tab-content bg-base-100 border-base-300 p-6">
-            <div class="overflow-y-auto p-2 pr-4 scrollbar-thin scrollbar-thumb-[#32244a] scrollbar-track-transparent h-[50vh]">
+            <div
+                class="overflow-y-auto p-2 pr-4 scrollbar-thin scrollbar-thumb-[#32244a] scrollbar-track-transparent h-[50vh]">
                 @if( licensesTermsResource.isLoading() ) {
-                    <div class="flex justify-center items-center h-full">
-                        <span class="loading loading-spinner loading-lg"></span>
-                    </div>
+                <div class="flex justify-center items-center h-full">
+                    <span class="loading loading-spinner loading-lg"></span>
+                </div>
                 }
                 @if (licensesTermsResource.hasValue()){
-                     <app-terms-conditions-table [termResponse]="licensesTermsResource.value()" [updatedTerm]="updatedTerm()" (termSelected)="selectTermFromTable($event)" (termNew)="openModalNewTerm()"/>
+                <app-terms-conditions-table [termResponse]="licensesTermsResource.value()" [updatedTerm]="updatedTerm()"
+                    (termSelected)="selectTermFromTable($event)" (termNew)="openModalNewTerm()" />
                 }
             </div>
         </div>
 
 
         <!-- TEMPLATES -->
-        <input type="radio" name="my_tabs_3" class="tab" [attr.aria-label]="'general_settings.tabs.templates' | changeLanguage"  />
+        <input type="radio" name="my_tabs_3" class="tab"
+            [attr.aria-label]="'general_settings.tabs.templates' | changeLanguage" />
         <div class="tab-content bg-base-100 border-base-300 p-6">
-            <div class="overflow-y-auto p-2 pr-4 scrollbar-thin scrollbar-thumb-[#32244a] scrollbar-track-transparent h-[50vh]">
+            <div
+                class="overflow-y-auto p-2 pr-4 scrollbar-thin scrollbar-thumb-[#32244a] scrollbar-track-transparent h-[50vh]">
                 @if( licensesTemplateResource.isLoading() ) {
-                    <div class="flex justify-center items-center h-full">
-                        <span class="loading loading-spinner loading-lg"></span>
-                    </div>
+                <div class="flex justify-center items-center h-full">
+                    <span class="loading loading-spinner loading-lg"></span>
+                </div>
                 }
                 @if (licensesTemplateResource.hasValue()){
-                    <!-- <app-license-template-table [templateResponse]="licensesTemplateResource.value()" (templateSelected)="selectTemplateFromTable($event)" (templateNew)="openModalNewTemplate($event)"/> -->
-                     <app-license-template-table [licenseTemplateData]="licensesTemplateResource.value()" />
+                <app-license-template-table [templateResponse]="licensesTemplateResource.value()"
+                    [updatedTemplate]="updatedTemplate()" (templateSelected)="selectTemplateFromTable($event)"
+                    (templateNew)="openModalNewTemplate()" />
                 }
             </div>
             @if (licensesTemplateResource.hasValue()) {
-                <app-pagination [paginationData]="licensesTemplateResource.value()" />
+            <app-pagination [paginationData]="licensesTemplateResource.value()" />
             }
         </div>
 
@@ -52,9 +70,10 @@
     }
 
 </div>
-<!-- @if (selectedTemplate()){ -->
-<!-- <app-license-template-modal [inputData]="selectedTemplate()" (closed)="onModalClosed($event)" /> -->
-<!-- } -->
 
-<!-- MODAL TERMINOS Y CONDICIONES -->
-<app-license-terms-modal [inputData]="selectedTerm()" (closed)="onModalTermsClosed($event)" />
+<app-license-terms-modal [inputTermData]="selectedTerm()" (closed)="onModalTermsClosed($event)" />
+<app-email-body-modal [inputEmailBodyData]="selectedEmailBody()" (closed)="onModalEmailBodyClosed($event)" />
+<app-license-template-modal [inputTemplateData]="selectedTemplate()" (closed)="onModalTemplateClosed($event)" />
+
+
+

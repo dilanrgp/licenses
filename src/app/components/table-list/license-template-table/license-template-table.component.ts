@@ -1,164 +1,81 @@
-import {
-  Component,
-  effect,
-  inject,
-  input,
-  linkedSignal,
-  output,
-  signal,
-} from '@angular/core';
+import { Component, effect, inject, input, linkedSignal, output } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
-import { LicenseTemplateModalComponent } from '@components/license-template-modal/license-template-modal.component';
-import {
-  ApiLicenseTemplateResponse,
-  LicenseTemplate,
-} from '@interfaces/license-template.interface';
+import { ApiLicenseTemplateResponse, LicenseTemplate } from '@interfaces/license-template.interface';
 import { ChangeLanguagePipe } from '@pipes/change-language.pipe';
-import { ModalService } from '@services/modal.service';
 
 @Component({
   selector: 'app-license-template-table',
-  imports: [ChangeLanguagePipe, LicenseTemplateModalComponent],
+  imports: [ChangeLanguagePipe],
   templateUrl: './license-template-table.component.html',
 })
-export class LicenseTemplateTableComponent {
-  // sanitizer = inject(DomSanitizer);
-
-  // templateResponse = input.required<ApiLicenseTemplateResponse>();
-  // updatedTemplate = input<LicenseTemplate | null>();
-
-  // templateSelected = output<LicenseTemplate>();
-  // templateNew = output<boolean>();
-
-  // licenseTemplates = linkedSignal(() => this.templateResponse().data);
-
-  // updateEffect = effect(() => {
-  //   const template = this.updatedTemplate();
-  //   if (template) {
-  //     this.updateTemplateList(template);
-  //   }
-  // });
-
-  // selectTemplate(template: LicenseTemplate) {
-  //   this.templateSelected.emit(template);
-  // }
-
-  // openModalNewLicenseTemplate(){
-  //   this.templateNew.emit(true);
-  // }
-
-  // updateTemplateList(templateInformation: LicenseTemplate) {
-  //   if (templateInformation) {
-  //     this.licenseTemplates.update((current) => {
-  //       let nextList = current.map((template) => ({ ...template }));
-
-  //       const idxTemplate = nextList.findIndex(
-  //         (template) => template.id === templateInformation.id
-  //       );
-
-  //       if (idxTemplate >= 0) {
-  //         nextList[idxTemplate] = {
-  //           ...nextList[idxTemplate],
-  //           ...templateInformation,
-  //         };
-  //       } else {
-  //         nextList = [
-  //           ...nextList,
-  //           {
-  //             ...templateInformation,
-  //           },
-  //         ];
-  //       }
-
-  //       return nextList;
-  //     });
-  //   }
-  // }
-
-  // getActive(active: number) {
-  //   return active == 1 ? 'common.yes' : 'common.not';
-  // }
-
-  // sanitizedHtml(descriptionTemplate: string): SafeHtml {
-  //   const div = document.createElement('div');
-  //   div.innerHTML = descriptionTemplate; // parsear HTML
-  //   let textTemplate = div.textContent || div.innerText || '';
-
-  //   const sliceTerm =
-  //     textTemplate.slice(0, 150) + (textTemplate.length > 150 ? '...' : '');
-
-  //   return this.sanitizer.bypassSecurityTrustHtml(sliceTerm);
-  // }
-
-  
+export class LicenseTemplateTableComponent {  
 
   sanitizer = inject(DomSanitizer);
-  modalService = inject(ModalService);
-
-  templateSelected = output<LicenseTemplate>();
-
-  licenseTemplateData = input.required<ApiLicenseTemplateResponse>();
-  licenseTemplates = linkedSignal(() => this.licenseTemplateData().data as LicenseTemplate[]);
-  openModal = signal(false);
-  selectedTemplate = signal<LicenseTemplate | null>(null);
-  
-  modalEffect = effect(() => {
     
-    console.log("🚀 ~ LicenseTemplateTableComponent ~ licenseTemplates:", this.licenseTemplates)
-    if (this.openModal()) {
-      this.selectedTemplate.set(null);
+    templateResponse = input.required<ApiLicenseTemplateResponse>();
+    updatedTemplate = input<LicenseTemplate | null>();
+    
+    templateSelected = output<LicenseTemplate>();
+    templateNew = output<boolean>();
+    
+    licenseTemplates = linkedSignal(() => this.templateResponse().data);
+  
+    updateEffect = effect(() => {
+      const template = this.updatedTemplate();
+      if (template) {
+        this.updateTemplateList(template);
+      }
+    });
+  
+    selectTemplate(template: LicenseTemplate) {
+      this.templateSelected.emit(template);
     }
 
-    const licenseTemplate = this.selectedTemplate();
-
-    if (licenseTemplate || this.openModal()) {
-      setTimeout(() => {
-        this.modalService.open('modal-license-template');
-      }, 500);
+    getActive(active: number) {
+      return (active == 1) ? 'common.yes' : 'common.not';
     }
-  });
-
-  selectTemplate(template: LicenseTemplate) {
-    this.selectedTemplate.set(template);
-  }
-
-  getActive(active: number) {
-    return (active == 1) ? 'common.yes' : 'common.not';
-  }
-
-  sanitizedHtml(stringContent: string): SafeHtml {
-
-    const div = document.createElement('div');
-    div.innerHTML = stringContent; // parsear HTML
-    let textTerm = div.textContent || div.innerText || '';
-
-    const sliceTerm = textTerm.slice(0, 100) + (textTerm.length > 100 ? '...' : '');
-
-    return this.sanitizer.bypassSecurityTrustHtml(sliceTerm);
-  }
-
-  clearSelectedTemplate(templateInformation: LicenseTemplate) {
-
+  
+    updateTemplateList(templateInformation: LicenseTemplate) {
       if (templateInformation) {
-
+  
         this.licenseTemplates.update((current) => {
 
-          const index = current.findIndex((term) => term.id === templateInformation.id);
-
-          if (index >= 0) {
-            current[index] = { ...current[index], ...templateInformation };
-            return [...current];
+          let nextList = current.map(template => ({ ...template }));
+  
+          const idxTemplate = nextList.findIndex(template => template.id === templateInformation.id);
+  
+          if (idxTemplate >= 0) {
+            nextList[idxTemplate] = {
+              ...nextList[idxTemplate],
+              ...templateInformation,
+            };
+  
           } else {
-            return [...current, templateInformation];
+            nextList = [
+              ...nextList,
+              {
+                ...templateInformation,
+              },
+            ];
           }
+  
+          return nextList;
         });
       }
-
-      this.selectedTemplate.set(null);
     }
-
-  openModalNewLicenseTemplate(){
-    this.openModal.set(true);
-    // this.modalService.open('modal-license-template');
-  }
+  
+    sanitizedHtml(descriptionTemplate: string): SafeHtml {
+  
+      const div = document.createElement('div');
+      div.innerHTML = descriptionTemplate; // parsear HTML
+      let textTemplate = div.textContent || div.innerText || '';
+  
+      const sliceTemplate = textTemplate.slice(0, 100) + (textTemplate.length > 100 ? '...' : '');
+  
+      return this.sanitizer.bypassSecurityTrustHtml(sliceTemplate);
+    }
+  
+    openModalNewTemplate(){
+      this.templateNew.emit(true);
+    }
 }

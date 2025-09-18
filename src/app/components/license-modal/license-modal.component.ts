@@ -49,7 +49,13 @@ export class LicenseModalComponent {
       next: (response) => {
         
         if (response.success) {
-          this.licenseData.set(response.data!)
+          // this.licenseData.set(response.data!);
+
+          this.licenseData.update((current) => ({
+            ...response.data!,
+            serial_number: current!.serial_number,
+          }));
+
           this.messageService.toast({ originalMessage: 'license.modal.sent_success', type: 'success', translate: true});
         }
 

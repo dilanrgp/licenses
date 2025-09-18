@@ -19,8 +19,12 @@ type TinyConfig = Record<string, unknown>;
 })
 export class TinyEditorComponent {
 
+  tinymceSrc = new URL('assets/tinymce/tinymce.min.js', document.baseURI).toString();
+
   config = input<TinyConfig>({
-    base_url: '/tinymce',
+    base_url: new URL('assets/tinymce', document.baseURI).pathname.startsWith('/')
+    ? new URL('assets/tinymce', document.baseURI).pathname   // e.g. /licences-admin/assets/tinymce
+    : '/assets/tinymce',
     suffix: '.min',
     plugins: 'lists link image table code',
     toolbar: 'undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | indent outdent | bullist numlist',

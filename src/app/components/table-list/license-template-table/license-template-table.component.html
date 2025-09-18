@@ -1,5 +1,5 @@
 <div class="flex justify-end mb-4">
-    <button class="btn btn-xs btn-success rounded-sm" (click)="openModalNewLicenseTemplate()">{{ 'common.button_new' | changeLanguage }}</button>
+    <button class="btn btn-xs btn-success rounded-sm" (click)="openModalNewTemplate()">{{ 'common.button_new' | changeLanguage }}</button>
 </div>
 
 <div class="overflow-x-auto">
@@ -49,6 +49,3 @@
         </tbody>
     </table>
 </div>
-@if(selectedTemplate()){
-<app-license-template-modal [inputData]="selectedTemplate()" (closed)="clearSelectedTemplate($event)" />
-}

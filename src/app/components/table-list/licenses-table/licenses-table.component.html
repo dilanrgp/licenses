@@ -21,14 +21,28 @@
             @for (license of licenses(); let i = $index; track i) {
             <tr>
                 <td>
-                    @if(license.license_status_id <= 2) {
+                    @if(license.license_status_id <= 2 && license.have_type) {
                         <input type="checkbox" class="checkbox checkbox-xs" [checked]="selectedIds().includes(license.id)" (change)="toggleId(license.id)"/>
                     }
                 </td>
                 <td>{{ license.client_email }}</td>
                 <td>{{ license.po | orderPosition: license.position }}</td>
                 <td>{{ license.idmaterial }}</td>
-                <td>{{ license.serial_number }}</td>
+                <td>
+                    @if(license.bundle == 'UNITARIO') {
+                        <div class="collapse rounded-xs">
+                            <input type="checkbox" />
+                            <div class="collapse-title p-0">{{ 'license.table.serial_numbers' | changeLanguage}}</div>
+                            <div class="collapse-content text-sm w-[30px]">
+                                {{ license.serial_number }}
+                            </div>
+                        </div>
+                    }
+                    <!--  -->
+                    @else {
+                        {{ license.serial_number }}
+                    }
+                </td>
                 <td class="text-center">
                     <div class="badge badge-outline badge-primary">
                         {{ license.license_status_name }}

@@ -53,8 +53,9 @@ export interface License {
   created_at:              Date;
   updated_at:              Date | null;
   deleted_at:              null;
-  license_file?:            LicenseFile[];
+  license_file?:           LicenseFile[];
   license_terms_file:      string;
+  have_type:               boolean;
 }
 
 export enum Bundle {

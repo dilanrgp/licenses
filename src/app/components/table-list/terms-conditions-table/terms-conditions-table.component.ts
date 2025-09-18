@@ -18,12 +18,14 @@ import { ChangeLanguagePipe } from '@pipes/change-language.pipe';
 })
 export class TermsConditionsTableComponent {
 
+  sanitizer = inject(DomSanitizer);
+  
   termResponse = input.required<ApiTermsResponse>();
+  updatedTerm = input<TermsAndConditions | null>();
+  
   termSelected = output<TermsAndConditions>();
   termNew = output<boolean>();
-  updatedTerm = input<TermsAndConditions | null>();
-  sanitizer = inject(DomSanitizer);
-
+  
   terms = linkedSignal(() => this.termResponse().data);
 
   updateEffect = effect(() => {

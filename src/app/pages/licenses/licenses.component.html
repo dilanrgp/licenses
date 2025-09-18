@@ -23,8 +23,7 @@
 
         @if (licensesResource.hasValue()){
 
-        <app-licenses-table [licenseResponse]="licensesResource.value()" [updatedLicense]="updatedLicense()"
-            (selectionChanged)="selectedLicenses.set($event)" (licenseSelected)="selectLicenseFromTable($event)" />
+        <app-licenses-table [licenseResponse]="licensesResource.value()" [updatedLicense]="updatedLicense()" (selectionChanged)="selectedLicenses.set($event)" (licenseSelected)="selectLicenseFromTable($event)" />
         }
 
     </div>

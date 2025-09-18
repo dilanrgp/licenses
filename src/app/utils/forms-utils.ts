@@ -19,7 +19,6 @@ export class FormUtils {
 
     const firstKey = Object.keys(errors)[0];
     const error = errors[firstKey];
-    console.log("🚀 ~ FormUtils ~ getTextError ~ firstKey:", firstKey)
 
     switch (firstKey) {
       case 'required':

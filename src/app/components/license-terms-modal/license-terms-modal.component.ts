@@ -7,12 +7,12 @@ import { ModalService } from '@services/modal.service';
 import { TermsConditionsService } from '@services/terms-conditions.service';
 import { ToastMessageService } from '@services/toast-message.service';
 import { FormErrorLabelComponent } from '@shared/components/form-error-label/form-error-label.component';
-import { QuillEditorComponent } from 'ngx-quill';
+import { TinyEditorComponent } from '@shared/components/tiny-editor/tiny-editor.component';
 import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-license-terms-modal',
-  imports: [FormsModule, QuillEditorComponent, ReactiveFormsModule, ChangeLanguagePipe, FormErrorLabelComponent, ToastMessageComponent],
+  imports: [FormsModule, ReactiveFormsModule, ChangeLanguagePipe, FormErrorLabelComponent, ToastMessageComponent, TinyEditorComponent],
   templateUrl: './license-terms-modal.component.html',
 })
 export class LicenseTermsModalComponent {
@@ -22,9 +22,8 @@ export class LicenseTermsModalComponent {
   modalService = inject(ModalService);
   termsService = inject(TermsConditionsService);
   fb = inject(FormBuilder);
-  inputData = input<TermsAndConditions | null>(null);
-  termData = linkedSignal( () => this.inputData());
-  // termData = model.required<TermsAndConditions | null>();
+  inputTermData = input<TermsAndConditions | null>(null);
+  termData = linkedSignal( () => this.inputTermData());
   loading = signal(false);
   defaultTerm = signal(false);
   loadingDefault = signal(false);
@@ -95,7 +94,6 @@ export class LicenseTermsModalComponent {
     this.loading.set(true);
 
     setTimeout(async () => {
-      this.loading.set(false);
 
       const termsValue = this.termsForm.value;
 
@@ -110,7 +108,7 @@ export class LicenseTermsModalComponent {
       const result = this.termData()?.id ? await this.updateTerm(this.termData()!.id, termsAndConditionsLike) : await this.createTerm(termsAndConditionsLike);
 
       this.messageService.toast({
-        originalMessage: (this.termData()?.id) ? 'terms_condition.table.updated_success' : 'terms_condition.table.created_success',
+        originalMessage: (this.termData()?.id) ? 'common.updated_success' : 'common.created_success',
         translate: true,
       });
       

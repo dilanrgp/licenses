@@ -1,19 +1,20 @@
 <div id="modal-license-template" class="modal">
-    @if(loading()){
+    <app-toast-message />
+    @if( typesResource.isLoading() || loading() ) {
     <div class="overlay">
         <span class="loading loading-spinner text-secondary"></span>
     </div>
     }
-    <div class="modal-box max-w-7xl ">
-        <button type="button" class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
-                (click)="onClose()">✕</button>
+    <!--  -->
 
+    <div class="modal-box max-w-7xl animate-fade-in ">
+        <button type="button" class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2" (click)="onClose()">✕</button>
         <form [formGroup]="templateForm" (ngSubmit)="onSubmit()">
             <div class="flex justify-between items-center mb-4 mt-5">
                 <div>
                     <h3 class="text-xl font-bold">{{ 'license_template.modal.title' | changeLanguage}} </h3>
                 </div>
-                <button class="btn btn-xs btn-secondary rounded-sm">{{ 'common.button_save' | changeLanguage}}</button>
+                <button type="button" (click)="onSubmit()" class="btn btn-xs btn-secondary rounded-sm">{{ 'common.button_save' | changeLanguage}}</button>
             </div>
 
             <div class="flex gap-4">
@@ -33,7 +34,7 @@
                     </legend>
                     <select class="select w-full" formControlName="type_id">
                         <option disabled selected>{{ 'license_template.table.type' | changeLanguage }}</option>
-                        @for (type of types(); track type.id) {
+                        @for (type of typesResource.value(); track type.id) {
                         <option [value]="type.id">{{ type.description }}</option>
                         }
                     </select>
@@ -44,13 +45,17 @@
                     <legend class="fieldset-legend" [class.input-error]="isInvalid('logo')">
                         {{ 'license_template.table.logo' | changeLanguage }}
                     </legend>
-                    @if(!templateForm.get('logo')?.value) {
-                    <input type="file" class="file-input grow w-full" (change)="onLogoSelected($event)" formControlName="logo"
-                        [placeholder]="'license_template.table.logo' | changeLanguage"
-                        [class.input-error]="isInvalid('logo')" />
+                    @if(!urlLogo()) {
+                    <input type="file" accept="image/*" class="file-input grow w-full" (change)="onLogoSelected($event)"
+                        formControlName="logo" [placeholder]="'license_template.table.logo' | changeLanguage"
+                        [attr.required]="!templateData()?.logo ? true : null" [class.input-error]="isInvalid('logo')" />
                     } @else {
-                    <div class="flex h-12 items-center gap-2">
-                        <span>{{ getLogoName() }}</span>
+                    <div class="flex h-8 items-center gap-2">
+                        <div class="avatar">
+                            <div class="w-8 rounded ring-primary ring-offset-base-100 ring-2 ring-offset-2">
+                                <img [src]="urlLogo()" />
+                            </div>
+                        </div>
                         <button type="button" class="btn btn-xs btn-circle btn-ghost" (click)="removeLogo()">✕</button>
                     </div>
                     }
@@ -58,20 +63,41 @@
                 </fieldset>
             </div>
 
+            <!-- <div class="collapse bg-base-100 border-base-300 border">
+                        <input type="checkbox" />
+                        <div class="collapse-title font-semibold">{{ 'license_template.modal.keyword_title' | changeLanguage}}</div>
+                        <div class="collapse-content text-sm">
+                            Click the "Sign Up" button in the top right corner and follow the registration process.
+                        </div>
+                    </div> -->
+            <div class="flex-1 flex flex-col">
+                <fieldset class="fieldset border-0 p-0 m-0">
+                    <legend class="fieldset-legend">
+                        {{ 'license_template.modal.keyword_title' | changeLanguage }}
+                    </legend>
+                </fieldset>
+                <!-- Contenedor de botones en fila con salto de línea -->
+                <div class="flex flex-wrap items-start gap-1 mt-1">
+                    @for (keyword of keywords(); track $index) {
+                        <div class="tooltip" [attr.data-tip]="(keyword.observation | changeLanguage)">
+                            <button type="button" class="btn btn-xs btn-dash"
+                                (click)="copyKeyword(keyword.database_field)">
+                                {{ keyword.keyword }}
+                        </button>
+                        </div>
+                    }
+                </div>
+            </div>
             <div class="flex-1 flex flex-col">
                 <fieldset class="fieldset gap-0 py-0">
                     <legend class="fieldset-legend" [class.input-error]="isInvalid('content')">
                         {{ 'license_template.table.content' | changeLanguage }}
                     </legend>
                     <app-tiny-editor formControlName="content" />
-                    <!-- <app-tiny-editor [content]="templateForm.get('content')?.value ?? ''" (textChanged)="templateForm.get('content')?.setValue($event)" /> -->
                     <form-error-label [control]="templateForm.get('content')!" />
                 </fieldset>
-
             </div>
         </form>
     </div>
+
 </div>
-
-
-
